@@ -1,2 +1,10 @@
-# savings-account
-Docker Compose Web App | Savings Account
+# Savings Account
+### Docker Compose Web App
+
+# Author
+### Kevin Doolaeghe
+
+# Installation
+```
+docker-compose up -d
+```
