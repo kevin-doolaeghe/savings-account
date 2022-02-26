@@ -2,7 +2,7 @@ version: '2'
 
 services:
   frontend:
-    build: ./frontend/savingsaccount
+    build: ./frontend/savings-account
     restart: unless-stopped
     container_name: frontend
     ports:
@@ -14,7 +14,7 @@ services:
     - lan
 
   backend:
-    build: ./backend/savingsaccount
+    build: ./backend/savings-account
     restart: unless-stopped
     container_name: backend
     ports:
