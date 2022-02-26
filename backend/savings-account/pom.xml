@@ -11,8 +11,8 @@
 	<groupId>fr.kdoolaeghe</groupId>
 	<artifactId>savingsaccount</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>savingsaccount</name>
-	<description>Demo project for Spring Boot</description>
+	<name>savings-account</name>
+	<description>Savings Account REST API</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
