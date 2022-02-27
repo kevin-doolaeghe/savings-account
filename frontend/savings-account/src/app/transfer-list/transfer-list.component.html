@@ -1,0 +1,13 @@
+<h2>{{ title }}</h2>
+<ul>
+    <li *ngFor="let transfer of transferList">
+        <div>
+            〈{{ transfer.id }}〉 {{ transfer.title }}
+            <button type="button" (click)="toggleEditor(transfer)">Edit</button>
+            <app-transfer-destroyer [transferId]=transfer.id></app-transfer-destroyer>
+        </div>
+    </li>
+</ul>
+<div *ngIf="showTransferEditor">
+    <app-transfer-editor [transfer]=selectedTransfer></app-transfer-editor>
+</div>

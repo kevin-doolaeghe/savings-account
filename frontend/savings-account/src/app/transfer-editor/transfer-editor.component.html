@@ -1,0 +1,22 @@
+<div>
+    <form [formGroup]="transferForm" (ngSubmit)="updateTransfer()">
+      <label for="description">*Description: </label>
+      <input id="description" formControlName="description" required />
+      <br />
+      <label for="date">Date: </label>
+      <input id="date" type="date" formControlName="date" required />
+      <br />
+      <label for="amount">*Amount: </label>
+      <input id="amount" type="number" formControlName="amount" required />
+      <br />
+      <label for="type">*Type: </label>
+      <input id="type" formControlName="type" required />
+      <br />
+      <label for="status">*Status: </label>
+      <input id="status" type="checkbox" formControlName="status" required />
+      <br />
+      <p>*: mandatory fields</p>
+      <button type="submit" [disabled]="!transferForm.valid">Add transfer</button>
+    </form>
+    <p>Result: {{ error }}</p>
+  </div>
