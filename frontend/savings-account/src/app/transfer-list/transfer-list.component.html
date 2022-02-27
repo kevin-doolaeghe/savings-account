@@ -3,8 +3,10 @@
     <li *ngFor="let transfer of transferList">
         <div>
             〈{{ transfer.id }}〉 {{ transfer.title }}
-            <button type="button" (click)="toggleEditor(transfer)">Edit</button>
-            <app-transfer-destroyer [transferId]=transfer.id></app-transfer-destroyer>
+            <div>
+                <button class="edit" type="button" (click)="toggleEditor(transfer)">Edit</button>
+                <app-transfer-destroyer [transferId]=transfer.id></app-transfer-destroyer>
+            </div>
         </div>
     </li>
 </ul>

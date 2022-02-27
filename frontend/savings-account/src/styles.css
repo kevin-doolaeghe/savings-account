@@ -29,9 +29,7 @@ nav {
 
 /* list */
 
-app-user-list,
-app-event-list,
-app-subscription-list {
+app-transfer-list {
     width: 90%;
     margin-left: 5%;
     margin-right: 5%;
@@ -46,6 +44,14 @@ ul {
     list-style-type: square;
 }
 
+li {
+    padding: 6px;
+}
+
+li:hover {
+    background-color: #eee;
+}
+
 li div {
     display: flex;
     flex-direction: row;
@@ -54,30 +60,27 @@ li div {
 
 /* destroyer */
 
-app-user-destroyer,
-app-event-destroyer,
-app-subscription-destroyer {
+app-transfer-destroyer {
     cursor: pointer;
 }
 
-button.delete {
+button.delete,
+button.edit {
     padding: 4px 8px;
 }
 
 /* creator */
 
-app-user-creator,
-app-event-creator,
-app-subscription-creator {
+app-transfer-creator,
+app-transfer-editor {
     width: 100%;
     margin-top: 40px;
     display: flex;
     flex-direction: row-reverse;
 }
 
-app-user-creator div,
-app-event-creator div,
-app-subscription-creator div {
+app-transfer-creator div,
+app-transfer-editor div {
     width: 60%;
 }
 
@@ -120,9 +123,20 @@ button:disabled {
     cursor: not-allowed;
 }
 
-input {
+input,
+select {
     width: 100%;
     padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+option {
+    width: 100%;
+    padding: 30px 30px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;

@@ -10,10 +10,18 @@
       <input id="amount" type="number" formControlName="amount" required />
       <br />
       <label for="type">*Type: </label>
-      <input id="type" formControlName="type" required />
+      <select name="type" formControlName="type" required>
+        <option *ngFor="let type of transferTypes" [value]="type.value">
+          {{ type.name }}
+        </option>
+      </select>
       <br />
       <label for="status">*Status: </label>
-      <input id="status" type="checkbox" formControlName="status" required />
+      <select name="status" formControlName="status" required>
+        <option *ngFor="let status of transferStatus" [value]="status.value">
+          {{ status.name }}
+        </option>
+      </select>
       <br />
       <p>*: mandatory fields</p>
       <button type="submit" [disabled]="!transferForm.valid">Add transfer</button>

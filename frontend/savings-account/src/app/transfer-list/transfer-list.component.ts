@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy  } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { Transfer } from '../transfer';
+import { Transfer, TransferType } from '../transfer';
 
 @Component({
   selector: 'app-transfer-list',
@@ -17,6 +17,10 @@ export class TransferListComponent implements OnInit, OnDestroy {
 
   constructor(private service: TransferService) {
     this.service.getTransferList().subscribe(list => this.transferList = list);
+    this.transferList = [
+      new Transfer(1, 'test', new Date(), 100, TransferType.SAVINGS, true),
+      new Transfer(1, 'test2', new Date(), 50, TransferType.CLOTHES, false)
+    ];
   }
 
   ngOnInit(): void {

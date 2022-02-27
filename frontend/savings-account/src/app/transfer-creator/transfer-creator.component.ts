@@ -2,7 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { TransferService } from '../transfer.service';
-import { Transfer } from '../transfer';
+import { Transfer, TransferType } from '../transfer';
+
+interface Type {
+  value: TransferType;
+  name: String;
+}
+
+interface Status {
+  value: Boolean;
+  name: String;
+}
 
 @Component({
   selector: 'app-transfer-creator',
@@ -11,13 +21,26 @@ import { Transfer } from '../transfer';
 })
 export class TransferCreatorComponent implements OnInit {
 
+  transferTypes: Type[] = [
+    { value: TransferType.SAVINGS, name: 'Savings' },
+    { value: TransferType.PLEASURE, name: 'Pleasure' },
+    { value: TransferType.CLOTHES, name: 'Clothes' },
+    { value: TransferType.VEHICLE, name: 'Vehicle' }
+  ];
+
+  transferStatus: Status[] = [
+    { value: true, name: "Done" },
+    { value: false, name: "Waiting" }
+  ];
+
   transferForm = this.fb.group({
     description: ['', Validators.required],
     date: [''],
     amount: ['', Validators.required],
-    type: ['', Validators.required],
-    status: ['', Validators.required]
+    type: [this.transferTypes[0].value, Validators.required],
+    status: [this.transferStatus[0].value, Validators.required]
   });
+
   error = "";
 
   constructor(private fb: FormBuilder, private service: TransferService) { }
