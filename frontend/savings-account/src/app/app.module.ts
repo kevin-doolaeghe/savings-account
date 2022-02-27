@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 import { TransferListComponent } from './transfer-list/transfer-list.component';
+import { TransferItemComponent } from './transfer-item/transfer-item.component';
 import { TransferCreatorComponent } from './transfer-creator/transfer-creator.component';
-import { TransferDestroyerComponent } from './transfer-destroyer/transfer-destroyer.component';
 import { TransferEditorComponent } from './transfer-editor/transfer-editor.component';
 import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
 
@@ -17,8 +17,8 @@ import { TransferService } from './transfer.service';
   declarations: [
     AppComponent,
     TransferListComponent,
+    TransferItemComponent,
     TransferCreatorComponent,
-    TransferDestroyerComponent,
     TransferEditorComponent,
     BalanceSheetComponent
   ],

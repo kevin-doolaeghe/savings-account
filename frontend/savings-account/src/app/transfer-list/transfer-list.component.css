@@ -1,0 +1,13 @@
+/* list */
+
+ul {
+    list-style-type: circle;
+}
+
+li {
+    padding: 6px;
+}
+
+li:hover {
+    background-color: #f2f2f2;
+}

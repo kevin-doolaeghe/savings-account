@@ -24,4 +24,5 @@ export class AppComponent {
   toggleEditor(type: ContentType) {
     this.content = type;
   }
+  
 }

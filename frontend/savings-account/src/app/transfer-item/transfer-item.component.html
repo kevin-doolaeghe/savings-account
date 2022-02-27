@@ -1,0 +1,16 @@
+<div>
+    <div class="data">
+        <div>
+            <div class="id">{{ transfer.id }}</div>
+            <div>{{ transfer.description }}</div>
+        </div>
+        <div class="amount" [ngClass]="selectColor()">{{ transfer.amount }}</div>
+    </div>
+    <div>
+        <button class="edit" title="Edit" (click)="editTransfer()">✏️</button>
+        <button class="delete" title="Delete" (click)="deleteTransfer()">❌</button>
+    </div>
+</div>
+<div class="editor" *ngIf="showTransferEditor">
+    <app-transfer-editor [transfer]=transfer></app-transfer-editor>
+</div>

@@ -1,0 +1,21 @@
+/* app */
+
+app-transfer-list {
+    display: flex;
+    flex-direction: column;
+    width: 94%;
+    margin: 10px 3%;
+}
+
+app-transfer-creator {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+app-balance-sheet {
+    display: flex;
+    flex-direction: column;
+    width: 94%;
+    margin: 10px 3%;
+}

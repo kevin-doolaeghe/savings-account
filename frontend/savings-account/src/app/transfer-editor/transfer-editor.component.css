@@ -1,0 +1,24 @@
+/* editor */
+
+div {
+    width: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+form p {
+    margin: 12px 0;
+    font-size: small;
+}
+
+form div {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}

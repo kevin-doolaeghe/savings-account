@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransferDestroyerComponent } from './transfer-destroyer.component';
+import { TransferItemComponent } from './transfer-item.component';
 
-describe('TransferDestroyerComponent', () => {
-  let component: TransferDestroyerComponent;
-  let fixture: ComponentFixture<TransferDestroyerComponent>;
+describe('TransferItemComponent', () => {
+  let component: TransferItemComponent;
+  let fixture: ComponentFixture<TransferItemComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TransferDestroyerComponent ]
+      declarations: [ TransferItemComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransferDestroyerComponent);
+    fixture = TestBed.createComponent(TransferItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

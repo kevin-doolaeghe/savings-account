@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BalanceSheetComponent implements OnInit {
 
+  title = "Balance sheet:";
+
   constructor() { }
 
   ngOnInit(): void {

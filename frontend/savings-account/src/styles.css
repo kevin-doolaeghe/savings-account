@@ -14,6 +14,10 @@ app-root {
     align-content: center;
 }
 
+hr {
+    margin: 20px 0;
+}
+
 h1 {
     text-align: center;
     justify-content: center;
@@ -25,79 +29,6 @@ nav {
     flex-direction: row;
     justify-content: center;
     align-content: center;
-}
-
-/* list */
-
-app-transfer-list {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 10px;
-}
-
-h2 {
-    margin-left: 2%;
-}
-
-ul {
-    list-style-type: square;
-}
-
-li {
-    padding: 6px;
-}
-
-li:hover {
-    background-color: #eee;
-}
-
-li div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-/* destroyer */
-
-app-transfer-destroyer {
-    cursor: pointer;
-}
-
-button.delete,
-button.edit {
-    padding: 4px 8px;
-}
-
-/* creator */
-
-app-transfer-creator,
-app-transfer-editor {
-    width: 100%;
-    margin-top: 40px;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-app-transfer-creator div,
-app-transfer-editor div {
-    width: 60%;
-}
-
-form {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-}
-
-label {
-    display: block;
-    margin: .5em 0;
-    font-weight: bold;
-}
-
-form p {
-    margin-bottom: 20px;
 }
 
 button {
@@ -116,11 +47,17 @@ button:hover:enabled {
     background-color: cornflowerblue;
     color: black;
     font-weight: bold;
+    cursor: pointer;
 }
 
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+label {
+    margin: .5em 0;
+    font-weight: bold;
 }
 
 input,
@@ -135,11 +72,29 @@ select {
 }
 
 option {
-    width: 100%;
-    padding: 30px 30px;
-    margin: 8px 0;
     display: inline-block;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+}
+
+option:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+div.unit-input {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+span.unit {
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    top: 0;
+    right: 50px;
 }
