@@ -37,7 +37,7 @@ div.amount:after {
     color: rgb(136, 136, 64);
 }
 
-div.id {
+div.top {
     background-color: royalblue;
     color: aliceblue;
     font-weight: bold;

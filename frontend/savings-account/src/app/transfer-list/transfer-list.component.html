@@ -3,4 +3,5 @@
     <li *ngFor="let transfer of transferList">
         <app-transfer-item [transfer]=transfer></app-transfer-item>
     </li>
+    <p *ngIf="isEmptyList()">No transfer found..</p>
 </ul>

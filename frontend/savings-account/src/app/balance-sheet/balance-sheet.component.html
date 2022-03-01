@@ -1,1 +1,8 @@
 <h2>{{ title }}</h2>
+<ul>
+    <li *ngFor="let balance of balanceSheet; let id = index;">
+        <div class="top">{{ getBalanceIcon(id) }}</div>
+        <div class="amount" [ngClass]="selectColor(balance)">{{ balance }}</div>
+    </li>
+    <p *ngIf="isEmptyBalance()">No balance yet!</p>
+</ul>

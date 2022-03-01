@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { TransferType } from '../transfer';
 import { TransferService } from '../transfer.service';
 
 @Component({
@@ -18,14 +19,28 @@ export class TransferItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectColor(): String {
-    let amount = this.transfer.amount;
+  selectColor(amount: number): String {
     if (amount > 0) {
       return 'green';
     } else if (amount < 0) {
       return 'red';
     } else {
       return 'yellow';
+    }
+  }
+
+  getTypeIcon(): String {
+    switch (this.transfer.type) {
+      case TransferType.SAVINGS:
+        return "💸";
+      case TransferType.PLEASURE:
+        return "🎁";
+      case TransferType.CLOTHES:
+        return "👕";
+      case TransferType.VEHICLE:
+        return "🚗";
+      default:
+        return "";
     }
   }
 

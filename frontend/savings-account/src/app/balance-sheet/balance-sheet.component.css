@@ -1,0 +1,40 @@
+/* balance */
+
+ul {
+    list-style-type: circle;
+}
+
+li {
+    padding: 6px;
+}
+
+li:hover {
+    background-color: #f2f2f2;
+}
+
+div.amount:after {
+    content: "€";
+}
+
+.green {
+    color: rgb(76, 141, 76);
+}
+
+.red {
+    color: rgb(148, 80, 80);
+}
+
+.yellow {
+    color: rgb(136, 136, 64);
+}
+
+div.top {
+    background-color: royalblue;
+    color: aliceblue;
+    font-weight: bold;
+    margin-right: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

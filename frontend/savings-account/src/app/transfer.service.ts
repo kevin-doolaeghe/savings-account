@@ -4,6 +4,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Transfer } from './transfer';
+import { Balance } from './balance';
 
 @Injectable({
   providedIn: 'root'
@@ -62,6 +63,14 @@ export class TransferService {
         console.error(e);
         throw e;
       })
+    );
+  }
+
+  getBalanceSheet(): Observable<Balance> {
+    const url = `${this.url}/balance`;
+    return this.http.get<Balance>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`fetched balance sheet`)),
+      catchError(this.handleError<Balance>(`getBalanceSheet`))
     );
   }
 

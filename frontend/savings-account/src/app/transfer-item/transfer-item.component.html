@@ -1,10 +1,10 @@
 <div>
     <div class="data">
         <div>
-            <div class="id">{{ transfer.id }}</div>
+            <div class="top">{{ getTypeIcon() }} | {{ transfer.id }}</div>
             <div>{{ transfer.description }}</div>
         </div>
-        <div class="amount" [ngClass]="selectColor()">{{ transfer.amount }}</div>
+        <div class="amount" [ngClass]="selectColor(transfer.amount)">{{ transfer.amount }}</div>
     </div>
     <div>
         <button class="edit" title="Edit" (click)="editTransfer()">✏️</button>
