@@ -20,7 +20,7 @@ public class TransferDto {
     private Date date;
 
     @JsonProperty(value = "amount", required = true)
-    private Long amount;
+    private Double amount;
 
     @JsonProperty(value = "type", required = true)
     private Transfer.TransferType type;

@@ -32,7 +32,7 @@ public class Transfer {
     private Date date;
 
     @Column(name = "amount", nullable = false)
-    private Long amount;
+    private Double amount;
 
     @Column(name = "type", nullable = false)
     private TransferType type;

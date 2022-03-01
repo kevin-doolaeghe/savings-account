@@ -36,7 +36,7 @@ services:
     - MYSQL_USER=pifou
     - MYSQL_PASSWORD=pasglop
     networks:
-    - polytech
+    - lan
 
 networks:
   lan:
