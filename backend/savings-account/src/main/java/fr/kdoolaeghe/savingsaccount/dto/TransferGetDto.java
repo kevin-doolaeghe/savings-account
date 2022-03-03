@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class TransferDto {
+public class TransferGetDto {
 
     @JsonProperty("id")
     private Long id;

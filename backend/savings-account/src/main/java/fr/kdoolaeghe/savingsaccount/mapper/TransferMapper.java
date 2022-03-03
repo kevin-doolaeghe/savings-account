@@ -1,6 +1,7 @@
 package fr.kdoolaeghe.savingsaccount.mapper;
 
-import fr.kdoolaeghe.savingsaccount.dto.TransferDto;
+import fr.kdoolaeghe.savingsaccount.dto.TransferGetDto;
+import fr.kdoolaeghe.savingsaccount.dto.TransferPostDto;
 import fr.kdoolaeghe.savingsaccount.model.Transfer;
 
 import java.util.ArrayList;
@@ -8,30 +9,44 @@ import java.util.List;
 
 public class TransferMapper {
 
-    public static TransferDto toTransferDto(Transfer transfer) {
-        return TransferDto.builder()
+    public static TransferGetDto toTransferDto(Transfer transfer) {
+        return TransferGetDto.builder()
+                .id(transfer.getId())
+                .description(transfer.getDescription())
+                .date(transfer.getDate())
+                .amount(transfer.getAmount())
+                .type(transfer.getType())
+                .status(transfer.getStatus())
                 .build();
     }
 
-    public static List<TransferDto> toTransferDtoList(List<Transfer> transferList) {
-        List<TransferDto> transferDtoList = new ArrayList<>();
+    public static List<TransferGetDto> toTransferDtoList(List<Transfer> transferList) {
+        List<TransferGetDto> transferDtoList = new ArrayList<>();
         for (Transfer transfer : transferList) {
             transferDtoList.add(toTransferDto(transfer));
         }
         return transferDtoList;
     }
 
-    public static Transfer toTransfer(TransferDto transferDto) {
+    public static Transfer toTransfer(TransferPostDto transferDto) {
         return Transfer.builder()
+                .description(transferDto.getDescription())
+                .date(transferDto.getDate())
+                .amount(transferDto.getAmount())
+                .type(transferDto.getType())
+                .status(transferDto.getStatus())
                 .build();
     }
 
-    public static List<Transfer> toTransferList(List<TransferDto> transferDtoList) {
+    public static List<Transfer> toTransferList(List<TransferPostDto> transferDtoList) {
         List<Transfer> transferList = new ArrayList<>();
-        for (TransferDto transferDto : transferDtoList) {
-            transferList.add(toTransfer(transferDto));
+        for (TransferPostDto dto : transferDtoList) {
+            transferList.add(toTransfer(dto));
         }
         return transferList;
     }
+
+
+
 
 }

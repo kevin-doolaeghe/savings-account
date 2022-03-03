@@ -24,7 +24,7 @@ public class TransferService {
     }
 
     public Transfer createTransfer(Transfer transfer) {
-        Transfer found = getTransferById(transfer.getId());
+        Transfer found = getTransferById(transfer.getId() != null ? transfer.getId() : -1);
         if (found == null) return transferRepository.save(transfer);
         return null;
     }
