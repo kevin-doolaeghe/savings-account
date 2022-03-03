@@ -36,8 +36,9 @@ export class TransferEditorComponent implements OnInit {
   @Input() transfer: any = null;
 
   transferForm = this.fb.group({
+    id: [-1],
     description: ['', Validators.required],
-    date: ['', Validators.required],
+    date: [''],
     amount: ['', Validators.required],
     type: ['', Validators.required],
     status: ['', Validators.required]
@@ -50,8 +51,9 @@ export class TransferEditorComponent implements OnInit {
   ngOnInit(): void {
     if (this.transfer == null) return;
     this.transferForm = this.fb.group({
+      id: [this.transfer.id],
       description: [this.transfer.description, Validators.required],
-      date: [this.transfer.date, Validators.required],
+      date: [this.transfer.date],
       amount: [this.transfer.amount, Validators.required],
       type: [this.transfer.type, Validators.required],
       status: [this.transfer.status, Validators.required]
@@ -76,7 +78,15 @@ export class TransferEditorComponent implements OnInit {
       },
       complete: () => {
         console.info('complete');
-        this.transferForm.reset();
+        this.transferForm = this.fb.group({
+          id: [this.transfer.id],
+          description: [this.transfer.description, Validators.required],
+          date: [this.transfer.date],
+          amount: [this.transfer.amount, Validators.required],
+          type: [this.transfer.type, Validators.required],
+          status: [this.transfer.status, Validators.required]
+        });
+        // this.transferForm.reset();
         this.error = "Successfully updated transfer.";
       }
     });

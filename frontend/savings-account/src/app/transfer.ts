@@ -11,8 +11,8 @@ export class Transfer {
 }
 
 export enum TransferType {
-    SAVINGS,
-    PLEASURE,
-    VEHICLE,
-    CLOTHES
+    SAVINGS = "SAVINGS",
+    PLEASURE = "PLEASURE",
+    VEHICLE = "VEHICLE",
+    CLOTHES = "CLOTHES"
 }

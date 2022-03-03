@@ -66,7 +66,13 @@ export class TransferCreatorComponent implements OnInit {
       },
       complete: () => {
         console.info('complete');
-        this.transferForm.reset();
+        this.transferForm = this.fb.group({
+          description: ['', Validators.required],
+          date: [''],
+          amount: ['', Validators.required],
+          type: [this.transferTypes[0].value, Validators.required],
+          status: [this.transferStatus[0].value, Validators.required]
+        });
         this.error = "Successfully added transfer.";
       }
     });

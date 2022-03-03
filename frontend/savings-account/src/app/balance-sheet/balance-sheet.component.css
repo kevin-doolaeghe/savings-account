@@ -12,7 +12,33 @@ li:hover {
     background-color: #f2f2f2;
 }
 
-div.amount:after {
+div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div.type {
+    background-color: royalblue;
+    color: aliceblue;
+    font-weight: bold;
+    margin-right: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+div.total:before {
+    content: "TOTAL:";
+    color: black;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+div.amount:after,
+div.total:after {
     content: "€";
 }
 
@@ -26,15 +52,4 @@ div.amount:after {
 
 .yellow {
     color: rgb(136, 136, 64);
-}
-
-div.top {
-    background-color: royalblue;
-    color: aliceblue;
-    font-weight: bold;
-    margin-right: 20px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
 }

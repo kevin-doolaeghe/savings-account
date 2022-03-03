@@ -57,7 +57,8 @@ export class TransferService {
   }
 
   updateTransfer(transfer: Transfer): Observable<any> {
-    return this.http.put(this.url, transfer, this.httpOptions).pipe(
+    const url = `${this.url}/${transfer.id}`;
+    return this.http.patch(url, transfer, this.httpOptions).pipe(
       tap(_ => this.log(`updated transfer id=${transfer.id}`)),
       catchError(e => {
         console.error(e);
@@ -66,11 +67,11 @@ export class TransferService {
     );
   }
 
-  getBalanceSheet(): Observable<Balance> {
+  getBalanceSheet(): Observable<Balance[]> {
     const url = `${this.url}/balance`;
-    return this.http.get<Balance>(url, this.httpOptions).pipe(
+    return this.http.get<Balance[]>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched balance sheet`)),
-      catchError(this.handleError<Balance>(`getBalanceSheet`))
+      catchError(this.handleError<Balance[]>(`getBalanceSheet`))
     );
   }
 

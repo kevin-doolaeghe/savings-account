@@ -1,8 +1,10 @@
 package fr.kdoolaeghe.savingsaccount.service;
 
+import fr.kdoolaeghe.savingsaccount.model.Balance;
 import fr.kdoolaeghe.savingsaccount.model.Transfer;
 import fr.kdoolaeghe.savingsaccount.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +17,16 @@ public class TransferService {
     private TransferRepository transferRepository;
 
     public List<Transfer> getAllTransfers() {
-        return transferRepository.findAll();
+        return transferRepository.findAll(Sort.by("date"));
     }
 
     public Transfer getTransferById(Long id) {
         Optional<Transfer> found = transferRepository.findById(id);
         return found.orElse(null);
+    }
+
+    public List<Balance> getBalanceSheet() {
+        return transferRepository.getBalanceSheet();
     }
 
     public Transfer createTransfer(Transfer transfer) {

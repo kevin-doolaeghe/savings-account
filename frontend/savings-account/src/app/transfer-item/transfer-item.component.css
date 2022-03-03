@@ -7,6 +7,17 @@ div {
     justify-content: space-between;
 }
 
+div.top {
+    background-color: royalblue;
+    color: aliceblue;
+    font-weight: bold;
+    margin-right: 20px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 div.data {
     width: 90%;
 }
@@ -35,17 +46,6 @@ div.amount:after {
 
 .yellow {
     color: rgb(136, 136, 64);
-}
-
-div.top {
-    background-color: royalblue;
-    color: aliceblue;
-    font-weight: bold;
-    margin-right: 20px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
 }
 
 button.edit,

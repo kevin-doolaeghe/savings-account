@@ -3,6 +3,7 @@ package fr.kdoolaeghe.savingsaccount.controller;
 import fr.kdoolaeghe.savingsaccount.dto.TransferGetDto;
 import fr.kdoolaeghe.savingsaccount.dto.TransferPostDto;
 import fr.kdoolaeghe.savingsaccount.mapper.TransferMapper;
+import fr.kdoolaeghe.savingsaccount.model.Balance;
 import fr.kdoolaeghe.savingsaccount.model.Transfer;
 import fr.kdoolaeghe.savingsaccount.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,11 @@ public class TransferController {
 
         TransferGetDto transferDto = TransferMapper.toTransferDto(transfer);
         return ResponseEntity.ok(transferDto);
+    }
+
+    @GetMapping("/balance")
+    public ResponseEntity<List<Balance>> getBalanceSheet() {
+        return ResponseEntity.ok(transferService.getBalanceSheet());
     }
 
     @PostMapping("")

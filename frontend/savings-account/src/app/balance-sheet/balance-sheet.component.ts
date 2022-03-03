@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Balance } from '../balance';
+import { TransferType } from '../transfer';
 import { TransferService } from '../transfer.service';
 
 @Component({
@@ -8,37 +8,68 @@ import { TransferService } from '../transfer.service';
   templateUrl: './balance-sheet.component.html',
   styleUrls: ['./balance-sheet.component.css']
 })
-export class BalanceSheetComponent implements OnInit {
+export class BalanceSheetComponent implements OnInit, OnDestroy {
 
   title = "Balance sheet:";
   balanceSheet: any = [];
+  total = 0;
   sub: any;
 
   constructor(private service: TransferService) {
-    this.service.getBalanceSheet().subscribe(res => this.balanceSheet = res);
+    this.service.getBalanceSheet().subscribe({
+      next: (v) => {
+        console.log(v);
+        this.balanceSheet = v;
+      },
+      error: (e) => {
+        console.error(e);
+      },
+      complete: () => {
+        console.info('complete');
+        this.calculateTotal();
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.total = 0;
     this.sub = this.service.getUpdate().subscribe(message => {
-      this.service.getBalanceSheet().subscribe(res => this.balanceSheet = res);
+      this.service.getBalanceSheet().subscribe({
+        next: (v) => {
+          console.log(v);
+          this.balanceSheet = v;
+        },
+        error: (e) => {
+          console.error(e);
+        },
+        complete: () => {
+          console.info('complete');
+          this.calculateTotal();
+        }
+      });
     })
   }
 
   ngOnDestroy(): void {
     if (this.sub) this.sub.unsubscribe();
   }
-  
-  getBalanceIcon(id: number): String {
-    switch (id) {
-      case 0:
-        return "⚖️";
-      case 1:
+
+  calculateTotal() {
+    this.total = 0;
+    for (let i = 0; i < this.balanceSheet.length; i++) {
+      this.total += this.balanceSheet[i].amount;
+    }
+  }
+
+  getTypeIcon(type: TransferType): String {
+    switch (type) {
+      case TransferType.SAVINGS:
         return "💸";
-      case 2:
+      case TransferType.PLEASURE:
         return "🎁";
-      case 3:
+      case TransferType.CLOTHES:
         return "👕";
-      case 4:
+      case TransferType.VEHICLE:
         return "🚗";
       default:
         return "";
