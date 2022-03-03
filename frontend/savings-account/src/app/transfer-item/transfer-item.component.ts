@@ -44,6 +44,17 @@ export class TransferItemComponent implements OnInit {
     }
   }
 
+  getStatusIcon(): String {
+    switch (this.transfer.status) {
+      case true:
+        return "✅";
+      case false:
+        return "❎";
+      default:
+        return "";
+    }
+  }
+
   editTransfer() {
     this.showEditor = !this.showEditor;
   }

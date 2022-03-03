@@ -31,10 +31,11 @@ div.type {
 }
 
 div.total:before {
-    content: "TOTAL:";
+    content: "Total:";
     color: black;
     font-weight: bold;
-    margin-right: 10px;
+    text-decoration: underline;
+    margin-right: 16px;
 }
 
 div.amount:after,
