@@ -54,3 +54,7 @@ div.total:after {
 .yellow {
     color: rgb(136, 136, 64);
 }
+
+app-balance-curve {
+    width: 100%;
+}

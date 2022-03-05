@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { TransferType } from '../transfer';
 import { TransferService } from '../transfer.service';
+import { Chart } from '../chart';
 
 @Component({
   selector: 'app-balance-sheet',
@@ -14,6 +15,20 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
   balanceSheet: any = [];
   total = 0;
   sub: any;
+  chart: any = new Chart(
+    "Balance sheet by type",
+    "line",
+    {
+      labels: [],
+      datasets: [
+        { label: 'Savings', data: [1000, 1200, 1050, 2000, 500] },
+        { label: 'Pleasure', data: [200, 100, 400, 50, 90] },
+        { label: 'Clothes', data: [500, 400, 350, 450, 650] },
+        { label: 'Vehicle', data: [1200, 1500, 1020, 1600, 900] },
+      ],
+    },
+    {}
+  );
 
   constructor(private service: TransferService) {
     this.service.getBalanceSheet().subscribe({

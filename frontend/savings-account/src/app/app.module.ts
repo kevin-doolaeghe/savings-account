@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 
@@ -12,6 +13,7 @@ import { TransferEditorComponent } from './transfer-editor/transfer-editor.compo
 import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
 
 import { TransferService } from './transfer.service';
+import { BalanceCurveComponent } from './balance-curve/balance-curve.component';
 
 @NgModule({
   declarations: [
@@ -20,12 +22,14 @@ import { TransferService } from './transfer.service';
     TransferItemComponent,
     TransferCreatorComponent,
     TransferEditorComponent,
-    BalanceSheetComponent
+    BalanceSheetComponent,
+    BalanceCurveComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
   ],
   providers: [
     TransferService
