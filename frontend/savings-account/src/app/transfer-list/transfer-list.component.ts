@@ -21,7 +21,7 @@ export class TransferListComponent implements OnInit, OnDestroy {
     this.sub = this.service.getUpdate().subscribe(message => {
       this.log(message);
       this.service.getTransferList().subscribe(list => this.transferList = list);
-    })
+    });
   }
 
   ngOnDestroy(): void {

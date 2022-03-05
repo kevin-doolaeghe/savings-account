@@ -14,6 +14,7 @@ import { BalanceSheetComponent } from './balance-sheet/balance-sheet.component';
 
 import { TransferService } from './transfer.service';
 import { BalanceCurveComponent } from './balance-curve/balance-curve.component';
+import { BalanceStatsComponent } from './balance-stats/balance-stats.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BalanceCurveComponent } from './balance-curve/balance-curve.component';
     TransferCreatorComponent,
     TransferEditorComponent,
     BalanceSheetComponent,
-    BalanceCurveComponent
+    BalanceCurveComponent,
+    BalanceStatsComponent
   ],
   imports: [
     BrowserModule,

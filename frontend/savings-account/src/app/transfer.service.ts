@@ -75,6 +75,14 @@ export class TransferService {
     );
   }
 
+  getBalanceDatasets(): Observable<Array<any>> {
+    const url = `${this.url}/balance/datasets`;
+    return this.http.get<Array<any>>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`fetched balance datasets`)),
+      catchError(this.handleError<Array<any>>(`getBalanceDatasets`))
+    );
+  }
+
   private log(message: string) {
     console.log(`TransferService: ${message}`);
   }
