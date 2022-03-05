@@ -41,6 +41,8 @@ export class TransferCreatorComponent implements OnInit {
     status: [this.transferStatus[0].value, Validators.required]
   });
 
+  showCreator: Boolean = false;
+
   error = "";
 
   constructor(private fb: FormBuilder, private service: TransferService) { }
@@ -76,6 +78,14 @@ export class TransferCreatorComponent implements OnInit {
         this.error = "Successfully added transfer.";
       }
     });
+  }
+
+  addTransfer() {
+    this.showCreator = !this.showCreator;
+  }
+
+  get showTransferCreator() {
+    return this.showCreator;
   }
 
 }

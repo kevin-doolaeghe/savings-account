@@ -1,6 +1,8 @@
 <div>
-  <h2>Add a new transfer:</h2>
-  <form [formGroup]="transferForm" (ngSubmit)="createTransfer()">
+  <div class="add">
+    <button title="Add transfer" (click)="addTransfer()">Add transfer</button>
+  </div>
+  <form *ngIf="showTransferCreator" [formGroup]="transferForm" (ngSubmit)="createTransfer()">
     <label for="description">*Description: </label>
     <input id="description" placeholder="Transfer to savings account" formControlName="description" required />
     <label for="date">Date: </label>
