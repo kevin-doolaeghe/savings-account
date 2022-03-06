@@ -29,6 +29,10 @@ public class TransferService {
         return transferRepository.getBalanceSheet();
     }
 
+    public List<Object> getBalanceDatasets() {
+        return transferRepository.getBalanceDatasets();
+    }
+
     public Transfer createTransfer(Transfer transfer) {
         Transfer found = getTransferById(transfer.getId() != null ? transfer.getId() : -1);
         if (found == null) return transferRepository.save(transfer);

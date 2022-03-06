@@ -42,6 +42,11 @@ public class TransferController {
         return ResponseEntity.ok(transferService.getBalanceSheet());
     }
 
+    @GetMapping("/balance/datasets")
+    public ResponseEntity<List<Object>> getBalanceDatasets() {
+        return ResponseEntity.ok(transferService.getBalanceDatasets());
+    }
+
     @PostMapping("")
     public ResponseEntity<TransferGetDto> createTransfer(@RequestBody TransferPostDto transferDto) {
         Transfer fromDto = TransferMapper.toTransfer(transferDto);
