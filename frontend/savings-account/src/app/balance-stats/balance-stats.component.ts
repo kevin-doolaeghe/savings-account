@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { TransferService } from '../transfer.service';
-import { Chart } from '../chart';
+import { Chart, Data } from '../chart';
 
 @Component({
   selector: 'app-balance-stats',
@@ -22,9 +22,6 @@ export class BalanceStatsComponent implements OnInit {
   
   datasets: any = [];
   sub: any;
-
-  labels: Array<any> = [];
-  data: Array<any> = [];
 
   constructor(private service: TransferService) {
     this.service.getBalanceDatasets().subscribe({
@@ -56,35 +53,29 @@ export class BalanceStatsComponent implements OnInit {
   }
 
   setupDatasets(): void {
-    /*
-    let axis = this.buildAxisData(
-      this.data1.x,
-      this.data1.y,
-      this.data2.x,
-      this.data2.y
-    );
-    console.log(axis);
-
-    this.labels = axis.x;
-    this.data = [
-      { label: 'Savings', data: axis.y1 },
-      { label: 'Pleasure', data: axis.y2 },
-      { label: 'Clothes', data: [] },
-      { label: 'Vehicle', data: [] },
-    ];
-    */
-
+    console.log(this.datasets);
     if (this.datasets.length == 0) return;
-    
-    this.labels = this.datasets[0].x;
-    this.data = [
-      { label: 'Savings', data: this.datasets[0].y },
-      { label: 'Pleasure', data: [] },
-      { label: 'Clothes', data: [] },
-      { label: 'Vehicle', data: [] },
-    ];
+  
+    let data = new Data();
+    this.datasets.forEach((row: Array<any>, i: number) => {
+      data.time[i] = row[0];
+      data.savings[i] = data.savings[i != 0 ? i - 1 : 0] + row[1];
+      data.pleasure[i] = data.pleasure[i != 0 ? i - 1 : 0] + row[2];
+      data.clothes[i] = data.clothes[i != 0 ? i - 1 : 0] + row[3];
+      data.vehicle[i] = data.vehicle[i != 0 ? i - 1 : 0] + row[4];
+      data.total[i] = data.total[i != 0 ? i - 1 : 0] + row[5];
+    });
 
-    this.chart.data = { labels: this.labels, datasets: this.data };
+    console.log(data);
+    this.chart.data = {
+      labels: data.time,
+      datasets: [
+        { label: 'Savings', data: data.savings },
+        { label: 'Pleasure', data: data.pleasure },
+        { label: 'Clothes', data: data.clothes },
+        { label: 'Vehicle', data: data.vehicle },
+      ],
+    };
   }
 
   /*

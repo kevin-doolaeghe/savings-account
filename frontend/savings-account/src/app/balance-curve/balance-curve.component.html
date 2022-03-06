@@ -1,7 +1,6 @@
 <div>
    <canvas baseChart
-      [datasets]="chart.data"
-      [labels]="chart.labels"
+      [data]="chart.data"
       [type]="chart.type"
       [options]="chartOptions"
       (chartHover)="chartHovered($event)"

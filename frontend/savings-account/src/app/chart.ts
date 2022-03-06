@@ -9,3 +9,15 @@ export class Chart {
       public options: ChartOptions) { }
   
 }
+
+export class Data {
+
+  constructor(
+    public time: Array<Date> = [],
+    public savings: Array<any> = [],
+    public pleasure: Array<any> = [],
+    public clothes: Array<any> = [],
+    public vehicle: Array<any> = [],
+    public total: Array<any> = []) { }
+
+}
