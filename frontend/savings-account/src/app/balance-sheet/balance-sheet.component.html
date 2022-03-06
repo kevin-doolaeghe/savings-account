@@ -8,12 +8,12 @@
     </li>
     <li *ngIf="!isEmptyBalance()">
         <div>
-            <div class="type">⚖️</div>
+            <div class="type">⚖️ Total</div>
             <div class="total" [ngClass]="selectColor(total)">{{ total }}</div>
         </div>
     </li>
     <p *ngIf="isEmptyBalance()">No balance yet!</p>
 </ul>
 <div *ngIf="!isEmptyBalance()">
-    <app-balance-stats></app-balance-stats>
+    <app-balance-stats [balanceSheet]="balanceSheet" [total]="total"></app-balance-stats>
 </div>

@@ -64,13 +64,13 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
   getTypeIcon(type: TransferType): String {
     switch (type) {
       case TransferType.SAVINGS:
-        return "💸";
+        return "💸 Savings";
       case TransferType.PLEASURE:
-        return "🎁";
+        return "🎁 Pleasure";
       case TransferType.CLOTHES:
-        return "👕";
+        return "👕 Clothes";
       case TransferType.VEHICLE:
-        return "🚗";
+        return "🚗 Vehicle";
       default:
         return "";
     }

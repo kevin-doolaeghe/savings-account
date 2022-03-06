@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 import { TransferType } from '../transfer';
 import { TransferService } from '../transfer.service';
@@ -14,7 +15,7 @@ export class TransferItemComponent implements OnInit {
 
   showEditor: Boolean = false;
 
-  constructor(private service: TransferService) { }
+  constructor(private service: TransferService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
   }
@@ -53,6 +54,10 @@ export class TransferItemComponent implements OnInit {
       default:
         return "";
     }
+  }
+
+  getFormattedDate(): any {
+    return this.datePipe.transform(this.transfer.date, 'dd/MM/yyyy');
   }
 
   editTransfer() {

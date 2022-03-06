@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ChartOptions } from 'chart.js';
 
 import { TransferService } from '../transfer.service';
 import { Chart, Data } from '../chart';
@@ -10,14 +11,91 @@ import { Chart, Data } from '../chart';
 })
 export class BalanceStatsComponent implements OnInit {
 
-  chart: any = new Chart(
+  @Input() balanceSheet: any = [];
+
+  @Input() total: number = 0;
+
+  lineChartOptions: ChartOptions = {
+    plugins: {
+      title: {
+        display: true,
+        text: "",
+      },
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          boxWidth: 10,
+        },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0,
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+        display: true,
+        time: {
+          unit: 'day',
+          displayFormats: {
+            day: 'dd/MM/yyyy',
+          },
+        },
+      },
+      y: {
+        stacked: true,
+        display: true,
+      },
+    },
+    responsive: true,
+  };
+
+  lineChart1: any = new Chart(
     "Balance sheet by type",
     "line",
     {
       labels: [],
       datasets: [],
     },
-    {}
+    this.lineChartOptions,
+  );
+
+  lineChart2: any = new Chart(
+    "Total balance",
+    "line",
+    {
+      labels: [],
+      datasets: [],
+    },
+    this.lineChartOptions,
+  );
+
+  pieChart1: any = new Chart(
+    "Repartition of different types",
+    "pie",
+    {
+      labels: [],
+      datasets: [],
+    },
+    {
+      plugins: {
+        title: {
+          display: true,
+          text: "",
+        },
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 10,
+          },
+        },
+      },
+      responsive: true,
+    },
   );
   
   datasets: any = [];
@@ -59,49 +137,49 @@ export class BalanceStatsComponent implements OnInit {
     let data = new Data();
     this.datasets.forEach((row: Array<any>, i: number) => {
       data.time[i] = row[0];
-      data.savings[i] = data.savings[i != 0 ? i - 1 : 0] + row[1];
-      data.pleasure[i] = data.pleasure[i != 0 ? i - 1 : 0] + row[2];
-      data.clothes[i] = data.clothes[i != 0 ? i - 1 : 0] + row[3];
-      data.vehicle[i] = data.vehicle[i != 0 ? i - 1 : 0] + row[4];
-      data.total[i] = data.total[i != 0 ? i - 1 : 0] + row[5];
+      if (i == 0) {
+        data.savings[i] = row[1];
+        data.pleasure[i] = row[2];
+        data.clothes[i] = row[3];
+        data.vehicle[i] = row[4];
+        data.total[i] = row[5];
+      } else {
+        data.savings[i] = data.savings[i - 1] + row[1];
+        data.pleasure[i] = data.pleasure[i - 1] + row[2];
+        data.clothes[i] = data.clothes[i - 1] + row[3];
+        data.vehicle[i] = data.vehicle[i - 1] + row[4];
+        data.total[i] = data.total[i - 1] + row[5];
+      }
     });
-
     console.log(data);
-    this.chart.data = {
+    
+    this.lineChart1.data = {
       labels: data.time,
       datasets: [
-        { label: 'Savings', data: data.savings },
-        { label: 'Pleasure', data: data.pleasure },
-        { label: 'Clothes', data: data.clothes },
-        { label: 'Vehicle', data: data.vehicle },
+        { label: '💸 Savings', data: data.savings },
+        { label: '🎁 Pleasure', data: data.pleasure },
+        { label: '👕 Clothes', data: data.clothes },
+        { label: '🚗 Vehicle', data: data.vehicle },
       ],
     };
-  }
 
-  /*
-  buildAxisData(x1: Array<any>, y1: Array<any>, x2: Array<any>, y2: Array<any>): any {
-    let x = [];
-    let _y1 = [];
-    let _y2 = [];
-    let l1 = x1.length;
-    let l2 = x2.length;
-    let i1 = 0;
-    let i2 = 0;
-    let i = 0;
-    while (i1 < l1 || i2 < l2) {
-      x[i] = x1[i1] < x2[i2] ? x1[i1] : x2[i2];
-      if (x1[i1] == x[i])
-        _y1[i] = i1 != l1 ? y1[i1++] : i != 0 ? _y1[i - 1] : 0;
-      else _y1[i] = i != 0 ? _y1[i - 1] : 0;
-      if (x2[i2] == x[i])
-        _y2[i] = i2 != l2 ? y2[i2++] : i != 0 ? _y2[i - 1] : 0;
-      else _y2[i] = i != 0 ? _y2[i - 1] : 0;
-      console.log(`x:${x[i]}; i1:${i1}; i2:${i2}`);
-      i++;
+    this.lineChart2.data = {
+      labels: data.time,
+      datasets: [
+        { label: '⚖️ Total', data: data.total },
+      ],
+    };
+
+    let percentSet = [];
+    for (let i = 0; i < this.balanceSheet.length; i++) {
+      percentSet[i] = this.balanceSheet[i].amount / this.total * 100;
     }
-    return { x: x, y1: _y1, y2: _y2 };
+    console.log(percentSet);
+    this.pieChart1.data = {
+      labels: [ '💸 Savings', '🎁 Pleasure', '👕 Clothes', '🚗 Vehicle' ],
+      datasets: [{ data: percentSet }],
+    };
   }
-  */
 
   private log(message: string) {
     console.log(`TransferListComponent: ${message}`);

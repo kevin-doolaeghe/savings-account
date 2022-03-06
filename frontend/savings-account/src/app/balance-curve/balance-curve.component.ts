@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
 
 import { Chart } from '../chart';
 
@@ -17,46 +16,8 @@ export class BalanceCurveComponent implements OnInit {
       labels: [],
       datasets: [],
     },
-    {}
+    {},
   );
-
-  chartOptions: ChartOptions = {
-    plugins: {
-      title: {
-        display: true,
-        text: this.chart.title,
-      },
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          boxWidth: 10,
-        },
-      },
-    },
-    elements: {
-      line: {
-        tension: 0,
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        display: true,
-        time: {
-          unit: 'day',
-          displayFormats: {
-            day: 'DD/MM/YYYY',
-          },
-        },
-      },
-      y: {
-        stacked: true,
-        display: true,
-      },
-    },
-    responsive: true,
-  };
 
   public chartClicked(e: any): void {
     console.log(e);

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
@@ -25,16 +26,17 @@ import { BalanceStatsComponent } from './balance-stats/balance-stats.component';
     TransferEditorComponent,
     BalanceSheetComponent,
     BalanceCurveComponent,
-    BalanceStatsComponent
+    BalanceStatsComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgChartsModule
+    NgChartsModule,
   ],
   providers: [
-    TransferService
+    TransferService,
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })

@@ -4,7 +4,7 @@
             <div class="top">{{ getTypeIcon() }} | {{ transfer.id }} | {{ getStatusIcon() }}</div>
             <div>{{ transfer.description }}</div>
         </div>
-        <div>{{ transfer.date }}</div>
+        <div>{{ getFormattedDate() }}</div>
         <div class="amount" [ngClass]="selectColor(transfer.amount)">{{ transfer.amount }}</div>
     </div>
     <div>
