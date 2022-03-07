@@ -1,0 +1,10 @@
+<div>
+    <canvas baseChart
+       [data]="chartData"
+       [options]="chartOptions"
+       [type]="chartType"
+       (chartHover)="chartHovered($event)"
+       (chartClick)="chartClicked($event)">
+    </canvas>
+ </div>
+ 

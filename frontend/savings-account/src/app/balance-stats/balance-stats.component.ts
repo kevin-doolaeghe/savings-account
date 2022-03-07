@@ -1,8 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartOptions } from 'chart.js';
+import { Component, OnInit } from '@angular/core';
+import { ChartData } from 'chart.js';
 
 import { TransferService } from '../transfer.service';
-import { Chart, Data } from '../chart';
+
+export class Data {
+
+  constructor(
+    public time: Array<Date> = [],
+    public savings: Array<any> = [],
+    public pleasure: Array<any> = [],
+    public clothes: Array<any> = [],
+    public vehicle: Array<any> = [],
+    public total: Array<any> = []) { }
+
+}
 
 @Component({
   selector: 'app-balance-stats',
@@ -11,92 +22,17 @@ import { Chart, Data } from '../chart';
 })
 export class BalanceStatsComponent implements OnInit {
 
-  @Input() balanceSheet: any = [];
-
-  @Input() total: number = 0;
-
-  lineChartOptions: ChartOptions = {
-    plugins: {
-      title: {
-        display: true,
-        text: "",
-      },
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          boxWidth: 10,
-        },
-      },
-    },
-    elements: {
-      line: {
-        tension: 0,
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        display: true,
-        time: {
-          unit: 'day',
-          displayFormats: {
-            day: 'dd/MM/yyyy',
-          },
-        },
-      },
-      y: {
-        stacked: true,
-        display: true,
-      },
-    },
-    responsive: true,
+  chartTitle1: String = "Balance sheet by type";
+  chartData1: ChartData = {
+    labels: [],
+    datasets: [],
   };
 
-  lineChart1: any = new Chart(
-    "Balance sheet by type",
-    "line",
-    {
-      labels: [],
-      datasets: [],
-    },
-    this.lineChartOptions,
-  );
-
-  lineChart2: any = new Chart(
-    "Total balance",
-    "line",
-    {
-      labels: [],
-      datasets: [],
-    },
-    this.lineChartOptions,
-  );
-
-  pieChart1: any = new Chart(
-    "Repartition of different types",
-    "pie",
-    {
-      labels: [],
-      datasets: [],
-    },
-    {
-      plugins: {
-        title: {
-          display: true,
-          text: "",
-        },
-        legend: {
-          display: true,
-          position: 'top',
-          labels: {
-            boxWidth: 10,
-          },
-        },
-      },
-      responsive: true,
-    },
-  );
+  chartTitle2: String = "Total balance";
+  chartData2: ChartData = {
+    labels: [],
+    datasets: [],
+  };
   
   datasets: any = [];
   sub: any;
@@ -107,7 +43,8 @@ export class BalanceStatsComponent implements OnInit {
       error: (e) => console.error(e),
       complete: () => {
         console.info('complete');
-        this.setupDatasets();
+        console.log(this.datasets);
+        if (this.datasets.length != 0) this.setupChartData();
       }
     });
   }
@@ -120,7 +57,8 @@ export class BalanceStatsComponent implements OnInit {
         error: (e) => console.error(e),
         complete: () => {
           console.info('complete');
-          this.setupDatasets();
+          console.log(this.datasets);
+          if (this.datasets.length != 0) this.setupChartData();
         }
       });
     });
@@ -130,10 +68,34 @@ export class BalanceStatsComponent implements OnInit {
     if (this.sub) this.sub.unsubscribe();
   }
 
-  setupDatasets(): void {
-    console.log(this.datasets);
-    if (this.datasets.length == 0) return;
-  
+  setupChartData(): void {
+    let data = this.setupDatasets();
+    
+    this.chartData1 = {
+      labels: data.time,
+      datasets: [
+        { label: '💸 Savings', data: data.savings, backgroundColor: 'rgba(66,133,244,0.2)', borderColor: 'rgba(66,133,244,0.2)' },
+        { label: '🎁 Pleasure', data: data.pleasure, backgroundColor: 'rgba(219,68,55,0.2)', borderColor: 'rgba(219,68,55,0.2)' },
+        { label: '👕 Clothes', data: data.clothes, backgroundColor: 'rgba(244,180,0,0.2)', borderColor: 'rgba(244,180,0,0.2)' },
+        { label: '🚗 Vehicle', data: data.vehicle, backgroundColor: 'rgba(15,157,88,0.2)', borderColor: 'rgba(15,157,88,0.2)' },
+      ],
+    };
+
+    this.chartData2 = {
+      labels: data.time,
+      datasets: [
+        {
+          label: '⚖️ Total',
+          data: data.total,
+          backgroundColor: 'rgba(66,133,244,0.2)',
+          borderColor: 'rgba(66,133,244,0.2)',
+          tension: 0.5,
+        },
+      ],
+    };
+  }
+
+  setupDatasets(): Data {
     let data = new Data();
     this.datasets.forEach((row: Array<any>, i: number) => {
       data.time[i] = row[0];
@@ -152,37 +114,12 @@ export class BalanceStatsComponent implements OnInit {
       }
     });
     console.log(data);
-    
-    this.lineChart1.data = {
-      labels: data.time,
-      datasets: [
-        { label: '💸 Savings', data: data.savings },
-        { label: '🎁 Pleasure', data: data.pleasure },
-        { label: '👕 Clothes', data: data.clothes },
-        { label: '🚗 Vehicle', data: data.vehicle },
-      ],
-    };
 
-    this.lineChart2.data = {
-      labels: data.time,
-      datasets: [
-        { label: '⚖️ Total', data: data.total },
-      ],
-    };
-
-    let percentSet = [];
-    for (let i = 0; i < this.balanceSheet.length; i++) {
-      percentSet[i] = this.balanceSheet[i].amount / this.total * 100;
-    }
-    console.log(percentSet);
-    this.pieChart1.data = {
-      labels: [ '💸 Savings', '🎁 Pleasure', '👕 Clothes', '🚗 Vehicle' ],
-      datasets: [{ data: percentSet }],
-    };
+    return data;
   }
 
   private log(message: string) {
-    console.log(`TransferListComponent: ${message}`);
+    console.log(`BalanceStatsComponent: ${message}`);
   }
 
 }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BalanceCurveComponent } from './balance-curve.component';
+import { LineChartComponent } from './line-chart.component';
 
-describe('BalanceCurveComponent', () => {
-  let component: BalanceCurveComponent;
-  let fixture: ComponentFixture<BalanceCurveComponent>;
+describe('LineChartComponent', () => {
+  let component: LineChartComponent;
+  let fixture: ComponentFixture<LineChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BalanceCurveComponent ]
+      declarations: [ LineChartComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BalanceCurveComponent);
+    fixture = TestBed.createComponent(LineChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
