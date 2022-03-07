@@ -2,6 +2,7 @@
 
 ul {
     list-style-type: circle;
+    width: 60%;
 }
 
 li {

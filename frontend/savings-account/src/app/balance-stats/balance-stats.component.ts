@@ -22,13 +22,13 @@ export class Data {
 })
 export class BalanceStatsComponent implements OnInit {
 
-  chartTitle1: String = "Balance sheet by type";
+  chartTitle1: string = "Balance sheet by type";
   chartData1: ChartData = {
     labels: [],
     datasets: [],
   };
 
-  chartTitle2: String = "Total balance";
+  chartTitle2: string = "Total balance";
   chartData2: ChartData = {
     labels: [],
     datasets: [],
@@ -74,10 +74,50 @@ export class BalanceStatsComponent implements OnInit {
     this.chartData1 = {
       labels: data.time,
       datasets: [
-        { label: '💸 Savings', data: data.savings, backgroundColor: 'rgba(66,133,244,0.2)', borderColor: 'rgba(66,133,244,0.2)' },
-        { label: '🎁 Pleasure', data: data.pleasure, backgroundColor: 'rgba(219,68,55,0.2)', borderColor: 'rgba(219,68,55,0.2)' },
-        { label: '👕 Clothes', data: data.clothes, backgroundColor: 'rgba(244,180,0,0.2)', borderColor: 'rgba(244,180,0,0.2)' },
-        { label: '🚗 Vehicle', data: data.vehicle, backgroundColor: 'rgba(15,157,88,0.2)', borderColor: 'rgba(15,157,88,0.2)' },
+        {
+          label: '💸 Savings',
+          data: data.savings,
+          backgroundColor: 'rgba(66,133,244,0.7)',
+          borderColor: 'rgba(66,133,244,1)',
+          pointBackgroundColor: 'rgba(66,133,244,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(66,133,244,1)',
+          fill: 'origin',
+        },
+        {
+          label: '🎁 Pleasure',
+          data: data.pleasure,
+          backgroundColor: 'rgba(219,68,55,0.7)',
+          borderColor: 'rgba(219,68,55,1)',
+          pointBackgroundColor: 'rgba(219,68,55,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(219,68,55,1)',
+          fill: 'origin',
+        },
+        {
+          label: '🚗 Vehicle',
+          data: data.vehicle,
+          backgroundColor: 'rgba(15,157,88,0.7)',
+          borderColor: 'rgba(15,157,88,1)',
+          pointBackgroundColor: 'rgba(15,157,88,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(15,157,88,1)',
+          fill: 'origin',
+        },
+        {
+          label: '👕 Clothes',
+          data: data.clothes,
+          backgroundColor: 'rgba(244,180,0,0.7)',
+          borderColor: 'rgba(244,180,0,1)',
+          pointBackgroundColor: 'rgba(244,180,0,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(244,180,0,1)',
+          fill: 'origin',
+        },
       ],
     };
 
@@ -87,9 +127,14 @@ export class BalanceStatsComponent implements OnInit {
         {
           label: '⚖️ Total',
           data: data.total,
-          backgroundColor: 'rgba(66,133,244,0.2)',
-          borderColor: 'rgba(66,133,244,0.2)',
-          tension: 0.5,
+          backgroundColor: 'rgba(255,215,0,0.3)',
+          borderColor: 'rgba(255,215,0,1)',
+          pointBackgroundColor: 'rgba(255,215,0,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(255,215,0,1)',
+          fill: 'origin',
+          tension: 0.15,
         },
       ],
     };

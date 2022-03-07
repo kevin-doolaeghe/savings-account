@@ -13,7 +13,7 @@ export class BalanceRepartitionChartComponent implements OnInit {
   @Input() total: number = 0;
 
   chartData: ChartData = {
-    labels: [ '💸 Savings', '🎁 Pleasure', '👕 Clothes', '🚗 Vehicle' ],
+    labels: [ '💸 Savings', '🎁 Pleasure', '🚗 Vehicle', '👕 Clothes' ],
     datasets: [],
   };
 
@@ -30,11 +30,18 @@ export class BalanceRepartitionChartComponent implements OnInit {
           boxWidth: 10,
         },
       },
+      tooltip: {
+        callbacks: {
+          label: context => {
+            return context.label + ": " + context.formattedValue + "%";
+          },
+        },
+      },
     },
     responsive: true,
   };
 
-  chartType: ChartType = "pie";
+  chartType: ChartType = "doughnut";
 
   public chartClicked(e: any): void {
     console.log(e);
@@ -53,7 +60,14 @@ export class BalanceRepartitionChartComponent implements OnInit {
     }
     console.log(percentSet);
 
-    this.chartData.datasets = [{ data: percentSet }];
+    this.chartData.datasets = [{
+      data: percentSet,
+      backgroundColor: [ 'rgba(66,133,244,0.7)', 'rgba(219,68,55,0.7)', 'rgba(244,180,0,0.7)', 'rgba(15,157,88,0.7)'  ],
+      borderColor: 'rgba(0,0,0,0)',
+      hoverBackgroundColor: [ 'rgba(66,133,244,1)', 'rgba(219,68,55,1)', 'rgba(244,180,0,1)', 'rgba(15,157,88,1)' ],
+      hoverBorderColor: [ 'rgba(66,133,244,1)', 'rgba(219,68,55,1)', 'rgba(244,180,0,1)', 'rgba(15,157,88,1)' ],
+      fill: 'origin',
+    }];
   }
 
 }

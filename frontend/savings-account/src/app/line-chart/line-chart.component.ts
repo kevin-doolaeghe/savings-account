@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
+import 'chartjs-adapter-date-fns';
+import { enGB } from 'date-fns/locale';
 
 @Component({
   selector: 'app-line-chart',
@@ -8,7 +10,7 @@ import { ChartData, ChartOptions, ChartType } from 'chart.js';
 })
 export class LineChartComponent implements OnInit {
 
-  @Input() chartTitle: String = "";
+  @Input() chartTitle: string = "";
 
   @Input() chartData: ChartData = {
     labels: [],
@@ -19,13 +21,20 @@ export class LineChartComponent implements OnInit {
     plugins: {
       title: {
         display: true,
-        text: "",
+        text: this.chartTitle,
       },
       legend: {
         display: true,
         position: 'top',
         labels: {
           boxWidth: 10,
+        },
+      },
+      tooltip: {
+        callbacks: {
+          label: context => {
+            return context.label + ": " + context.formattedValue + "€";
+          },
         },
       },
     },
@@ -36,18 +45,23 @@ export class LineChartComponent implements OnInit {
     },
     scales: {
       x: {
-        stacked: true,
         display: true,
-        time: {
-          unit: 'day',
-          displayFormats: {
-            day: 'dd/MM/yyyy',
+        type: "time",
+        adapters: {
+          date: {
+            local: enGB,
           },
+        },
+        time: {
+          displayFormats: {
+            quarter: 'MMM YYYY',
+          },
+          tooltipFormat: 'dd/MM/yyyy',
         },
       },
       y: {
-        stacked: true,
         display: true,
+        stacked: true,
       },
     },
     responsive: true,

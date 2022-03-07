@@ -22,6 +22,10 @@ div.data {
     width: 90%;
 }
 
+div.values {
+    width: 30%;
+}
+
 div.editor {
     display: block;
     width: 100%;

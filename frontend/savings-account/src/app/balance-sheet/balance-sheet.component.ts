@@ -67,10 +67,10 @@ export class BalanceSheetComponent implements OnInit, OnDestroy {
         return "💸 Savings";
       case TransferType.PLEASURE:
         return "🎁 Pleasure";
-      case TransferType.CLOTHES:
-        return "👕 Clothes";
       case TransferType.VEHICLE:
         return "🚗 Vehicle";
+      case TransferType.CLOTHES:
+        return "👕 Clothes";
       default:
         return "";
     }
