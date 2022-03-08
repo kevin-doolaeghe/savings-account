@@ -1,7 +1,17 @@
 <h2>{{ title }}</h2>
-<ul>
-    <li *ngFor="let transfer of transferList">
-        <app-transfer-item [transfer]=transfer></app-transfer-item>
-    </li>
-    <p *ngIf="isEmptyList()">No transfer found..</p>
-</ul>
+<table *ngIf="!isEmptyList()">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Status</th>
+            <th class="description">Description</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr app-transfer-item *ngFor="let transfer of transferList" [transfer]="transfer"></tr>
+    </tbody>
+</table>
+<p *ngIf="isEmptyList()">No transfer found..</p>

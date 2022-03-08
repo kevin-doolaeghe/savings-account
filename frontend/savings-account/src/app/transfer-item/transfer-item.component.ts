@@ -5,7 +5,7 @@ import { TransferType } from '../transfer';
 import { TransferService } from '../transfer.service';
 
 @Component({
-  selector: 'app-transfer-item',
+  selector: 'tr[app-transfer-item]',
   templateUrl: './transfer-item.component.html',
   styleUrls: ['./transfer-item.component.css']
 })

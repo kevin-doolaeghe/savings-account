@@ -1,13 +1,51 @@
 /* list */
 
-ul {
-    list-style-type: circle;
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
 }
 
-li {
+thead:after {
+    content: "";
+    display: block;
+    height: 0.5em;
+}
+
+thead tr {
+    background-color: royalblue;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+thead td:first-child,
+thead th:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+thead td:last-child,
+thead th:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+table td,
+table th {
     padding: 6px;
 }
 
-li:hover {
-    background-color: #f2f2f2;
+tr td:last-child,
+tr th:last-child {
+    text-align: right;
+}
+
+tr.item:nth-child(even) {
+    background: #efefef;
+}
+
+tbody tr.item:hover {
+    background-color: #e2e2e2;
+}
+
+th.description {
+    width: 50%;
 }

@@ -2,41 +2,20 @@
 
 div {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: center;
-    justify-content: space-between;
-}
-
-div.top {
-    background-color: royalblue;
-    color: aliceblue;
-    font-weight: bold;
-    margin-right: 20px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-div.data {
-    width: 90%;
-}
-
-div.values {
-    width: 30%;
 }
 
 div.editor {
-    display: block;
-    width: 100%;
+    display: inline-block;
 }
 
-div.amount:before {
+td.amount:before {
     content: "💰";
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
-div.amount:after {
+td.amount:after {
     content: "€";
 }
 
