@@ -1,14 +1,16 @@
-<td>{{ getTypeIcon() }}</td>
-<td>{{ getStatusIcon() }}</td>
-<td>{{ transfer.description }}</td>
-<td>{{ getFormattedDate() }}</td>
-<td class="amount" [ngClass]="selectColor(transfer.amount)">{{ transfer.amount }}</td>
-<td>
+<td *ngIf="!showTransferEditor">{{ service.getTypeIcon(transfer.type) }}</td>
+<td *ngIf="!showTransferEditor">{{ service.getStatusIcon(transfer.status) }}</td>
+<td *ngIf="!showTransferEditor">{{ transfer.description }}</td>
+<td *ngIf="!showTransferEditor">{{ service.getFormattedDate(transfer.date, datePipe) }}</td>
+<td class="amount" *ngIf="!showTransferEditor" [ngClass]="service.getAmountColor(transfer.amount)">{{ transfer.amount }}</td>
+<td colspan="5" *ngIf="showTransferEditor">
+    <div class="editor">
+        <app-transfer-editor [transfer]=transfer></app-transfer-editor>
+    </div>
+</td>
+<td class="actions">
     <div>
         <button class="delete" title="Delete" (click)="deleteTransfer()">❌</button>
         <button class="edit" title="Edit" (click)="editTransfer()">✏️</button>
-    </div>
-    <div class="editor" *ngIf="showTransferEditor">
-        <app-transfer-editor [transfer]=transfer></app-transfer-editor>
     </div>
 </td>

@@ -1,24 +1,24 @@
-<h2>{{ title }}</h2>
-<div>
+<h2>Balance sheet:</h2>
+<div *ngIf="!balanceSheet.isEmpty()">
     <ul>
-        <li *ngFor="let balance of balanceSheet">
+        <li *ngFor="let entry of balanceSheet.sheet">
             <div>
-                <div class="type">{{ getTypeIcon(balance.type) }}</div>
-                <div class="amount" [ngClass]="selectColor(balance.amount)">{{ balance.amount }}</div>
+                <div class="type">{{ service.getTypeIcon(entry.type) }}</div>
+                <div class="amount" [ngClass]="service.getAmountColor(entry.amount)">{{ entry.amount }}</div>
             </div>
         </li>
-        <li *ngIf="!isEmptyBalance()">
+        <li>
             <div>
                 <div class="type">⚖️ Total</div>
-                <div class="total" [ngClass]="selectColor(total)">{{ total }}</div>
+                <div class="total" [ngClass]="service.getAmountColor(balanceSheet.total)">{{ balanceSheet.total }}</div>
             </div>
         </li>
-        <p *ngIf="isEmptyBalance()">No balance yet!</p>
     </ul>
-    <div *ngIf="!isEmptyBalance()">
-        <app-balance-repartition-chart [balanceSheet]="balanceSheet" [total]="total"></app-balance-repartition-chart>
+    <div>
+        <app-balance-repartition-chart [balanceSheet]="balanceSheet"></app-balance-repartition-chart>
     </div>
 </div>
-<div *ngIf="!isEmptyBalance()">
+<p *ngIf="balanceSheet.isEmpty()">No balance yet!</p>
+<div *ngIf="!balanceSheet.isEmpty()">
     <app-balance-stats></app-balance-stats>
 </div>

@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy  } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { TransferService } from '../transfer.service';
+import { Transfer, TransferService } from '../transfer.service';
 
 @Component({
   selector: 'app-transfer-list',
@@ -9,8 +9,8 @@ import { TransferService } from '../transfer.service';
 })
 export class TransferListComponent implements OnInit, OnDestroy {
 
-  title = "Transfer list:";
-  transferList: any = [];
+  transferList: Array<Transfer> = [];
+
   sub: any;
 
   constructor(private service: TransferService) {

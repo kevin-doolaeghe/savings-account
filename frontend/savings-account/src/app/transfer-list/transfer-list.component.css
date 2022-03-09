@@ -18,18 +18,15 @@ thead tr {
     font-weight: bold;
 }
 
-thead td:first-child,
 thead th:first-child {
     border-radius: 4px 0 0 4px;
 }
 
-thead td:last-child,
 thead th:last-child {
     border-radius: 0 4px 4px 0;
 }
 
-table td,
-table th {
+th {
     padding: 6px;
 }
 
@@ -38,14 +35,14 @@ tr th:last-child {
     text-align: right;
 }
 
-tr.item:nth-child(even) {
+tr:nth-child(even) {
     background: #efefef;
 }
 
-tbody tr.item:hover {
+tbody tr:hover {
     background-color: #e2e2e2;
 }
 
-th.description {
+th.half {
     width: 50%;
 }

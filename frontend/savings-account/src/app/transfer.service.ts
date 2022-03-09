@@ -1,10 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 import { Observable, Subject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { Transfer } from './transfer';
-import { Balance } from './balance';
+export class Transfer {
+
+  constructor(
+      public id: number = -1,
+      public description: string = "",
+      public date: Date = new Date(),
+      public amount: number = 0,
+      public type: TransferType = TransferType.SAVINGS,
+      public status: boolean = false) { }
+
+}
+
+export enum TransferType {
+
+  SAVINGS = "SAVINGS",
+  PLEASURE = "PLEASURE",
+  VEHICLE = "VEHICLE",
+  CLOTHES = "CLOTHES"
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +35,7 @@ export class TransferService {
   private url = 'http://localhost:8080/transfers';
   
   private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   constructor(private http: HttpClient) { }
@@ -26,7 +43,7 @@ export class TransferService {
   getTransferList(): Observable<Transfer[]> {
     return this.http.get<Transfer[]>(this.url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched transfer list`)),
-      catchError(this.handleError<Transfer[]>(`getTransferList`))
+      catchError(this.handleError<Transfer[]>(`getTransferList`)),
     );
   }
 
@@ -34,7 +51,7 @@ export class TransferService {
     const url = `${this.url}/${id}`;
     return this.http.get<Transfer>(url, this.httpOptions).pipe(
       tap(_ => this.log(`fetched transfer id=${id}`)),
-      catchError(this.handleError<Transfer>(`getTransfer id=${id}`))
+      catchError(this.handleError<Transfer>(`getTransfer id=${id}`)),
     );
   }
 
@@ -52,7 +69,7 @@ export class TransferService {
     const url = `${this.url}/${id}`;
     return this.http.delete<Transfer>(url, this.httpOptions).pipe(
       tap(_ => this.log(`deleted transfer id=${id}`)),
-      catchError(this.handleError<Transfer>('deleteTransfer'))
+      catchError(this.handleError<Transfer>('deleteTransfer')),
     );
   }
 
@@ -63,24 +80,38 @@ export class TransferService {
       catchError(e => {
         console.error(e);
         throw e;
-      })
+      }),
     );
   }
 
-  getBalanceSheet(): Observable<Balance[]> {
-    const url = `${this.url}/balance`;
-    return this.http.get<Balance[]>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`fetched balance sheet`)),
-      catchError(this.handleError<Balance[]>(`getBalanceSheet`))
-    );
+  getTypeIcon(type: TransferType): string {
+    switch (type) {
+    case TransferType.SAVINGS:
+      return '💸';
+    case TransferType.PLEASURE:
+      return '🎁';
+    case TransferType.CLOTHES:
+      return '👕';
+    case TransferType.VEHICLE:
+      return '🚗';
+    default:
+      return '';
+    }
   }
 
-  getBalanceDatasets(): Observable<Array<any>> {
-    const url = `${this.url}/balance/datasets`;
-    return this.http.get<Array<any>>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`fetched balance datasets`)),
-      catchError(this.handleError<Array<any>>(`getBalanceDatasets`))
-    );
+  getStatusIcon(status: boolean): string {
+    if (status) return '✔️';
+    else return '❌';
+  }
+
+  getAmountColor(amount: number): string {
+    if (amount > 0) return 'green';
+    else if (amount < 0) return 'red';
+    else return 'yellow';
+  }
+
+  getFormattedDate(date: Date, datePipe: DatePipe): any {
+    return datePipe.transform(date, 'dd/MM/yyyy');
   }
 
   private log(message: string) {

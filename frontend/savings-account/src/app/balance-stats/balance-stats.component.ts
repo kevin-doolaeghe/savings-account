@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartData } from 'chart.js';
 
-import { TransferService } from '../transfer.service';
+import { BalanceService } from '../balance.service';
 
-export class Data {
+export class TransferData {
 
   constructor(
-    public time: Array<Date> = [],
-    public savings: Array<any> = [],
-    public pleasure: Array<any> = [],
-    public clothes: Array<any> = [],
-    public vehicle: Array<any> = [],
-    public total: Array<any> = []) { }
+      public time: Array<Date> = [],
+      public savings: Array<number> = [],
+      public pleasure: Array<number> = [],
+      public clothes: Array<number> = [],
+      public vehicle: Array<number> = [],
+      public total: Array<number> = []) { }
 
 }
 
@@ -23,60 +23,37 @@ export class Data {
 export class BalanceStatsComponent implements OnInit {
 
   chartTitle1: string = "Balance sheet by type";
-  chartData1: ChartData = {
-    labels: [],
-    datasets: [],
-  };
+
+  chartData1: ChartData = { labels: [], datasets: [] };
 
   chartTitle2: string = "Total balance";
-  chartData2: ChartData = {
-    labels: [],
-    datasets: [],
-  };
+
+  chartData2: ChartData = { labels: [], datasets: [] };
   
-  datasets: any = [];
+  datasets: Array<any> = [];
+
   sub: any;
 
-  constructor(private service: TransferService) {
+  constructor(private service: BalanceService) {
     this.service.getBalanceDatasets().subscribe({
-      next: data => this.datasets = data,
-      error: (e) => console.error(e),
-      complete: () => {
-        console.info('complete');
-        console.log(this.datasets);
-        if (this.datasets.length != 0) this.setupChartData();
-      }
+      next: (data) => this.datasets = data,
+      error: (err) => console.error(err),
+      complete: () => this.setupChartData(),
     });
   }
 
-  ngOnInit(): void {
-    this.sub = this.service.getUpdate().subscribe(message => {
-      this.log(message);
-      this.service.getBalanceDatasets().subscribe({
-        next: data => this.datasets = data,
-        error: (e) => console.error(e),
-        complete: () => {
-          console.info('complete');
-          console.log(this.datasets);
-          if (this.datasets.length != 0) this.setupChartData();
-        }
-      });
-    });
-  }
+  ngOnInit(): void { }
   
-  ngOnDestroy(): void {
-    if (this.sub) this.sub.unsubscribe();
-  }
-
   setupChartData(): void {
-    let data = this.setupDatasets();
-    
+    if (this.datasets.length == 0) return;
+    let transferData = this.setupData(this.datasets);
+
     this.chartData1 = {
-      labels: data.time,
+      labels: transferData.time,
       datasets: [
         {
           label: '💸 Savings',
-          data: data.savings,
+          data: transferData.savings,
           backgroundColor: 'rgba(66,133,244,0.7)',
           borderColor: 'rgba(66,133,244,1)',
           pointBackgroundColor: 'rgba(66,133,244,1)',
@@ -87,7 +64,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '🎁 Pleasure',
-          data: data.pleasure,
+          data: transferData.pleasure,
           backgroundColor: 'rgba(219,68,55,0.7)',
           borderColor: 'rgba(219,68,55,1)',
           pointBackgroundColor: 'rgba(219,68,55,1)',
@@ -98,7 +75,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '🚗 Vehicle',
-          data: data.vehicle,
+          data: transferData.vehicle,
           backgroundColor: 'rgba(15,157,88,0.7)',
           borderColor: 'rgba(15,157,88,1)',
           pointBackgroundColor: 'rgba(15,157,88,1)',
@@ -109,7 +86,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '👕 Clothes',
-          data: data.clothes,
+          data: transferData.clothes,
           backgroundColor: 'rgba(244,180,0,0.7)',
           borderColor: 'rgba(244,180,0,1)',
           pointBackgroundColor: 'rgba(244,180,0,1)',
@@ -122,11 +99,11 @@ export class BalanceStatsComponent implements OnInit {
     };
 
     this.chartData2 = {
-      labels: data.time,
+      labels: transferData.time,
       datasets: [
         {
           label: '⚖️ Total',
-          data: data.total,
+          data: transferData.total,
           backgroundColor: 'rgba(255,215,0,0.3)',
           borderColor: 'rgba(255,215,0,1)',
           pointBackgroundColor: 'rgba(255,215,0,1)',
@@ -140,9 +117,9 @@ export class BalanceStatsComponent implements OnInit {
     };
   }
 
-  setupDatasets(): Data {
-    let data = new Data();
-    this.datasets.forEach((row: Array<any>, i: number) => {
+  setupData(datasets: Array<any>): TransferData {
+    let data = new TransferData();
+    datasets.forEach((row: Array<any>, i: number) => {
       data.time[i] = row[0];
       if (i == 0) {
         data.savings[i] = row[1];
@@ -158,13 +135,7 @@ export class BalanceStatsComponent implements OnInit {
         data.total[i] = data.total[i - 1] + row[5];
       }
     });
-    console.log(data);
-
     return data;
-  }
-
-  private log(message: string) {
-    console.log(`BalanceStatsComponent: ${message}`);
   }
 
 }

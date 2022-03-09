@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { TransferService } from '../transfer.service';
-import { Transfer, TransferType } from '../transfer';
+import { Transfer, TransferService, TransferType } from '../transfer.service';
 
 interface Type {
   value: TransferType;
@@ -22,28 +21,32 @@ interface Status {
 export class TransferCreatorComponent implements OnInit {
 
   transferTypes: Type[] = [
-    { value: TransferType.SAVINGS, name: 'Savings' },
-    { value: TransferType.PLEASURE, name: 'Pleasure' },
-    { value: TransferType.CLOTHES, name: 'Clothes' },
-    { value: TransferType.VEHICLE, name: 'Vehicle' }
+    { value: TransferType.SAVINGS, name: '💸 Savings' },
+    { value: TransferType.PLEASURE, name: '🎁 Pleasure' },
+    { value: TransferType.CLOTHES, name: '👕 Clothes' },
+    { value: TransferType.VEHICLE, name: '🚗 Vehicle' },
   ];
 
   transferStatus: Status[] = [
-    { value: true, name: "Done" },
-    { value: false, name: "Waiting" }
+    { value: true, name: '✔️ Done' },
+    { value: false, name: '❌ Waiting' },
   ];
 
   transferForm = this.fb.group({
     description: ['', Validators.required],
-    date: [''],
+    date: [new Date(), Validators.required],
     amount: ['', Validators.required],
     type: [this.transferTypes[0].value, Validators.required],
     status: [this.transferStatus[0].value, Validators.required]
   });
 
+  error = "";
+
   showCreator: Boolean = false;
 
-  error = "";
+  get showTransferCreator() {
+    return this.showCreator;
+  }
 
   constructor(private fb: FormBuilder, private service: TransferService) { }
 
@@ -54,7 +57,7 @@ export class TransferCreatorComponent implements OnInit {
     this.service.createTransfer(this.transferForm.value as Transfer).subscribe({
       next: (v) => {
         console.log(v);
-        this.service.sendUpdate("update from TransferCreatorComponent");
+        this.service.sendUpdate("Update from TransferCreatorComponent");
       },
       error: (e) => {
         console.error(e);
@@ -67,10 +70,9 @@ export class TransferCreatorComponent implements OnInit {
         }
       },
       complete: () => {
-        console.info('complete');
         this.transferForm = this.fb.group({
           description: ['', Validators.required],
-          date: [''],
+          date: [new Date(), Validators.required],
           amount: ['', Validators.required],
           type: [this.transferTypes[0].value, Validators.required],
           status: [this.transferStatus[0].value, Validators.required]
@@ -82,10 +84,6 @@ export class TransferCreatorComponent implements OnInit {
 
   addTransfer() {
     this.showCreator = !this.showCreator;
-  }
-
-  get showTransferCreator() {
-    return this.showCreator;
   }
 
 }

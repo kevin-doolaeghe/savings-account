@@ -8,6 +8,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 
 import { TransferService } from './transfer.service';
+import { BalanceService } from './balance.service';
 
 import { TransferListComponent } from './transfer-list/transfer-list.component';
 import { TransferItemComponent } from './transfer-item/transfer-item.component';
@@ -38,6 +39,7 @@ import { LineChartComponent } from './line-chart/line-chart.component';
   ],
   providers: [
     TransferService,
+    BalanceService,
     DatePipe,
   ],
   bootstrap: [AppComponent]

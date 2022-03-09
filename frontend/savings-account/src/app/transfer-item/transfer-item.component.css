@@ -7,7 +7,16 @@ div {
 }
 
 div.editor {
+    width: 100%;
     display: inline-block;
+}
+
+td {
+    padding: 6px;
+}
+
+td.actions {
+    vertical-align: top;
 }
 
 td.amount:before {

@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { TransferService } from '../transfer.service';
-import { Transfer, TransferType } from '../transfer';
+import { Transfer, TransferService, TransferType } from '../transfer.service';
 
 interface Type {
   value: TransferType;
@@ -21,24 +20,24 @@ interface Status {
 })
 export class TransferEditorComponent implements OnInit {
 
+  @Input() transfer: Transfer = new Transfer();
+
   transferTypes: Type[] = [
-    { value: TransferType.SAVINGS, name: 'Savings' },
-    { value: TransferType.PLEASURE, name: 'Pleasure' },
-    { value: TransferType.CLOTHES, name: 'Clothes' },
-    { value: TransferType.VEHICLE, name: 'Vehicle' }
+    { value: TransferType.SAVINGS, name: '💸 Savings' },
+    { value: TransferType.PLEASURE, name: '🎁 Pleasure' },
+    { value: TransferType.CLOTHES, name: '👕 Clothes' },
+    { value: TransferType.VEHICLE, name: '🚗 Vehicle' },
   ];
 
   transferStatus: Status[] = [
-    { value: true, name: "Done" },
-    { value: false, name: "Waiting" }
+    { value: true, name: '✔️ Done' },
+    { value: false, name: '❌ Waiting' },
   ];
-
-  @Input() transfer: any = null;
-
+  
   transferForm = this.fb.group({
     id: [-1],
     description: ['', Validators.required],
-    date: [''],
+    date: ['', Validators.required],
     amount: ['', Validators.required],
     type: ['', Validators.required],
     status: ['', Validators.required]
@@ -53,7 +52,7 @@ export class TransferEditorComponent implements OnInit {
     this.transferForm = this.fb.group({
       id: [this.transfer.id],
       description: [this.transfer.description, Validators.required],
-      date: [this.transfer.date],
+      date: [this.transfer.date, Validators.required],
       amount: [this.transfer.amount, Validators.required],
       type: [this.transfer.type, Validators.required],
       status: [this.transfer.status, Validators.required]
@@ -64,7 +63,7 @@ export class TransferEditorComponent implements OnInit {
     this.service.updateTransfer(this.transferForm.value as Transfer).subscribe({
       next: (v) => {
         console.log(v);
-        this.service.sendUpdate("update from TransferEditorComponent");
+        this.service.sendUpdate("Update from TransferEditorComponent");
       },
       error: (e) => {
         console.error(e);
@@ -77,7 +76,6 @@ export class TransferEditorComponent implements OnInit {
         }
       },
       complete: () => {
-        console.info('complete');
         this.transferForm = this.fb.group({
           id: [this.transfer.id],
           description: [this.transfer.description, Validators.required],
@@ -86,7 +84,6 @@ export class TransferEditorComponent implements OnInit {
           type: [this.transfer.type, Validators.required],
           status: [this.transfer.status, Validators.required]
         });
-        // this.transferForm.reset();
         this.error = "Successfully updated transfer.";
       }
     });
