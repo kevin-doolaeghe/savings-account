@@ -1,19 +1,23 @@
-package fr.kdoolaeghe.savingsaccount.dto;
+package fr.kdoolaeghe.savingsaccount.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.kdoolaeghe.savingsaccount.model.BalanceEntry;
 import lombok.*;
 
 import java.util.List;
 
-@Data
-@Builder
-public class BalanceSheetDto {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class BalanceSheet {
 
-    @JsonProperty("entries")
     private List<BalanceEntry> entries;
 
-    @JsonProperty("total")
     private Double total;
 
+    public interface BalanceEntry {
+
+        Long getType();
+
+        Double getValue();
+    }
 }

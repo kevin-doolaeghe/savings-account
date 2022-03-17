@@ -14,13 +14,6 @@ import java.util.Date;
 @Table(name = "transfers")
 public class Transfer {
 
-    public enum TransferType {
-        SAVINGS,
-        PLEASURE,
-        VEHICLE,
-        CLOTHES
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,16 +21,15 @@ public class Transfer {
     @Column(name = "description", nullable = false, length = 100)
     private String description;
 
-    @Column(name = "date")
+    @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "amount", nullable = false)
-    private Double amount;
+    @Column(name = "value", nullable = false)
+    private Double value;
 
     @Column(name = "type", nullable = false)
-    private TransferType type;
+    private Long type;
 
     @Column(name = "status", nullable = false)
     private Boolean status;
-
 }

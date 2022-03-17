@@ -3,14 +3,13 @@
     <ul>
         <li *ngFor="let entry of balanceSheet.sheet">
             <div>
-                <div class="type">{{ service.getTypeIcon(entry.type) }}</div>
-                <div class="amount" [ngClass]="service.getAmountColor(entry.amount)">{{ entry.amount }}</div>
-            </div>
-        </li>
-        <li>
-            <div>
-                <div class="type">⚖️ Total</div>
-                <div class="total" [ngClass]="service.getAmountColor(balanceSheet.total)">{{ balanceSheet.total }}</div>
+                <div class="type">
+                    <div>{{ service.getTypeIcon(entry.type) }}</div>
+                    <div>{{ service.getTypeName(entry.type) }}</div>
+                </div>
+                <div class="value" [ngClass]="service.isTotal(entry.type) ? 'total' : ''" [ngClass]="service.getValueColor(entry.value)">
+                    {{ entry.value }}
+                </div>
             </div>
         </li>
     </ul>

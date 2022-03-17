@@ -1,6 +1,5 @@
 package fr.kdoolaeghe.savingsaccount.service;
 
-import fr.kdoolaeghe.savingsaccount.model.Balance;
 import fr.kdoolaeghe.savingsaccount.model.Transfer;
 import fr.kdoolaeghe.savingsaccount.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ public class TransferService {
     @Autowired
     private TransferRepository transferRepository;
 
-    public List<Transfer> getAllTransfers() {
-        return transferRepository.findAll(Sort.by("date"));
+    public List<Transfer> getTransferList() {
+        return transferRepository.findAll(Sort.by(Sort.Direction.DESC, "date"));
     }
 
     public Transfer getTransferById(Long id) {
@@ -25,16 +24,8 @@ public class TransferService {
         return found.orElse(null);
     }
 
-    public List<Balance> getBalanceSheet() {
-        return transferRepository.getBalanceSheet();
-    }
-
-    public List<Object> getBalanceDatasets() {
-        return transferRepository.getBalanceDatasets();
-    }
-
     public Transfer createTransfer(Transfer transfer) {
-        Transfer found = getTransferById(transfer.getId() != null ? transfer.getId() : -1);
+        Transfer found = getTransferById(transfer.getId());
         if (found == null) return transferRepository.save(transfer);
         return null;
     }
@@ -53,5 +44,4 @@ public class TransferService {
         if (found != null) return transferRepository.save(transfer);
         return null;
     }
-
 }

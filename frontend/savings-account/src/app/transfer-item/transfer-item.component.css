@@ -19,12 +19,12 @@ td.actions {
     vertical-align: top;
 }
 
-td.amount:before {
+td.value:before {
     content: "💰";
     margin-right: 5px;
 }
 
-td.amount:after {
+td.value:after {
     content: "€";
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class BalanceDataset {
+public class BalanceDatasetDto {
 
     @JsonProperty("date")
     private Date date;

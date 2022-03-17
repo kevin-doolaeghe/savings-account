@@ -15,7 +15,7 @@ export class BalanceSheetComponent implements OnInit {
     this.service.getBalanceSheet().subscribe({
       next: (sheet) => this.balanceSheet = sheet,
       error: (err) => console.error(err),
-      complete: () => this.balanceSheet.calculateTotal(),
+      complete: () => console.log(this.balanceSheet),
     });
   }
 

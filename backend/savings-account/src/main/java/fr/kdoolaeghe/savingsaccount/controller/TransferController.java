@@ -3,7 +3,6 @@ package fr.kdoolaeghe.savingsaccount.controller;
 import fr.kdoolaeghe.savingsaccount.dto.TransferGetDto;
 import fr.kdoolaeghe.savingsaccount.dto.TransferPostDto;
 import fr.kdoolaeghe.savingsaccount.mapper.TransferMapper;
-import fr.kdoolaeghe.savingsaccount.model.Balance;
 import fr.kdoolaeghe.savingsaccount.model.Transfer;
 import fr.kdoolaeghe.savingsaccount.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,41 +20,31 @@ public class TransferController {
     private TransferService transferService;
 
     @GetMapping("")
-    public ResponseEntity<List<TransferGetDto>> getAllTransfers() {
-        List<Transfer> transferList = transferService.getAllTransfers();
+    public ResponseEntity<List<TransferGetDto>> getTransferList() {
+        List<Transfer> transferList = transferService.getTransferList();
 
-        List<TransferGetDto> transferDtoList = TransferMapper.toTransferDtoList(transferList);
+        List<TransferGetDto> transferDtoList = TransferMapper.toTransferListDto(transferList);
         return ResponseEntity.ok(transferDtoList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TransferGetDto> getTransferById(@PathVariable Long id) {
-        Transfer transfer = transferService.getTransferById(id);
-        if (transfer == null) return ResponseEntity.notFound().build();
+        Transfer foundTransfer = transferService.getTransferById(id);
+        if (foundTransfer == null) return ResponseEntity.notFound().build();
 
-        TransferGetDto transferDto = TransferMapper.toTransferDto(transfer);
-        return ResponseEntity.ok(transferDto);
-    }
-
-    @GetMapping("/balance")
-    public ResponseEntity<List<Balance>> getBalanceSheet() {
-        return ResponseEntity.ok(transferService.getBalanceSheet());
-    }
-
-    @GetMapping("/balance/datasets")
-    public ResponseEntity<List<Object>> getBalanceDatasets() {
-        return ResponseEntity.ok(transferService.getBalanceDatasets());
+        TransferGetDto foundTransferDto = TransferMapper.toTransferDto(foundTransfer);
+        return ResponseEntity.ok(foundTransferDto);
     }
 
     @PostMapping("")
-    public ResponseEntity<TransferGetDto> createTransfer(@RequestBody TransferPostDto transferDto) {
-        Transfer fromDto = TransferMapper.toTransfer(transferDto);
+    public ResponseEntity<TransferGetDto> createTransfer(@RequestBody TransferPostDto dto) {
+        Transfer fromDto = TransferMapper.toTransfer(dto);
 
         Transfer createdTransfer = transferService.createTransfer(fromDto);
         if (createdTransfer == null) return ResponseEntity.badRequest().build();
 
-        TransferGetDto createdTransferGetDto = TransferMapper.toTransferDto(createdTransfer);
-        return ResponseEntity.ok(createdTransferGetDto);
+        TransferGetDto createdTransferDto = TransferMapper.toTransferDto(createdTransfer);
+        return ResponseEntity.ok(createdTransferDto);
     }
 
     @DeleteMapping("/{id}")
@@ -67,8 +56,8 @@ public class TransferController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TransferGetDto> updateTransfer(@PathVariable Long id, @RequestBody TransferPostDto transferDto) {
-        Transfer fromDto = TransferMapper.toTransfer(transferDto);
+    public ResponseEntity<TransferGetDto> updateTransfer(@PathVariable Long id, @RequestBody TransferPostDto dto) {
+        Transfer fromDto = TransferMapper.toTransfer(dto);
         fromDto.setId(id);
 
         Transfer updatedTransfer = transferService.updateTransfer(fromDto);
@@ -77,5 +66,4 @@ public class TransferController {
         TransferGetDto updatedTransferDto = TransferMapper.toTransferDto(updatedTransfer);
         return ResponseEntity.ok(updatedTransferDto);
     }
-
 }

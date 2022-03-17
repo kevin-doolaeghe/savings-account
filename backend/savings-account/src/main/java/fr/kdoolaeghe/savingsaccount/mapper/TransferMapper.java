@@ -14,39 +14,28 @@ public class TransferMapper {
                 .id(transfer.getId())
                 .description(transfer.getDescription())
                 .date(transfer.getDate())
-                .amount(transfer.getAmount())
+                .value(transfer.getValue())
                 .type(transfer.getType())
                 .status(transfer.getStatus())
                 .build();
     }
 
-    public static List<TransferGetDto> toTransferDtoList(List<Transfer> transferList) {
-        List<TransferGetDto> transferDtoList = new ArrayList<>();
+    public static List<TransferGetDto> toTransferListDto(List<Transfer> transferList) {
+        List<TransferGetDto> transferListDto = new ArrayList<>();
         for (Transfer transfer : transferList) {
-            transferDtoList.add(toTransferDto(transfer));
+            transferListDto.add(toTransferDto(transfer));
         }
-        return transferDtoList;
+        return transferListDto;
     }
 
     public static Transfer toTransfer(TransferPostDto transferDto) {
         return Transfer.builder()
+                .id(Long.MIN_VALUE)
                 .description(transferDto.getDescription())
                 .date(transferDto.getDate())
-                .amount(transferDto.getAmount())
+                .value(transferDto.getValue())
                 .type(transferDto.getType())
                 .status(transferDto.getStatus())
                 .build();
     }
-
-    public static List<Transfer> toTransferList(List<TransferPostDto> transferDtoList) {
-        List<Transfer> transferList = new ArrayList<>();
-        for (TransferPostDto dto : transferDtoList) {
-            transferList.add(toTransfer(dto));
-        }
-        return transferList;
-    }
-
-
-
-
 }

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe } from '@angular/common';
 
 import { Transfer, TransferService } from '../transfer.service';
 
@@ -18,7 +17,7 @@ export class TransferItemComponent implements OnInit {
     return this.showEditor;
   }
 
-  constructor(public service: TransferService, public datePipe: DatePipe) { }
+  constructor(public service: TransferService) { }
 
   ngOnInit(): void { }
 

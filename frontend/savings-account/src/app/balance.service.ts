@@ -2,38 +2,30 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-
-import { TransferType } from './transfer.service';
+import { DatePipe } from '@angular/common';
 
 export class BalanceSheet {
 
-  constructor(public sheet: Array<BalanceEntry> = [], public total: number = 0) { }
+  constructor(public sheet: Array<BalanceEntry> = []) { }
 
   isEmpty(): boolean {
     return this.sheet.length == 0;
   }
 
-  calculateTotal(): void {
-    this.total = 0;
-    this.sheet.forEach(entry => {
-      this.total += entry.amount;
-    });
+  getTotal(): number {
+    let total =  this.sheet.find(e => e.type < 0);
+    return total ? total.value : 0;
   }
 
-  getRepartition(): Array<number> {
-    let set: Array<number> = [];
-    if (this.total == 0) this.calculateTotal();
-    if (this.total == 0) return set;
-    this.sheet.forEach(entry => set.push(entry.amount / this.total * 100));
-    return set;
+  getPercentageSet(): Array<number> {
+    let total = this.getTotal();
+    return this.sheet.filter(e => e.value >= 0).map(e => e.value / total * 100);
   }
 
 }
 
 export class BalanceEntry {
-
-  constructor(public type: TransferType, public amount: number) { }
-
+  constructor(public type: number, public value: number) { }
 }
 
 @Injectable({
@@ -41,13 +33,13 @@ export class BalanceEntry {
 })
 export class BalanceService {
 
-  private url = 'http://localhost:8080/transfers/balance';
+  private url = 'http://localhost:8080/balance';
   
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private datePipe: DatePipe) { }
 
   getBalanceSheet(): Observable<BalanceSheet> {
     return this.http.get<BalanceEntry[]>(this.url, this.httpOptions).pipe(
@@ -65,25 +57,52 @@ export class BalanceService {
     );
   }
 
-  getTypeIcon(type: TransferType): string {
-      switch (type) {
-      case TransferType.SAVINGS:
-          return "💸 Savings";
-      case TransferType.PLEASURE:
-          return "🎁 Pleasure";
-      case TransferType.VEHICLE:
-          return "🚗 Vehicle";
-      case TransferType.CLOTHES:
-          return "👕 Clothes";
-      default:
-          return "";
-      }
+  getTypeIcon(type: number): string {
+    switch (type) {
+    case 0:
+      return '💸';
+    case 1:
+      return '🎁';
+    case 2:
+      return '👕';
+    case 3:
+      return '🚗';
+    case -1:
+      return '⚖️';
+    default:
+      return '';
+    }
+  }
+  
+  getTypeName(type: number): string {
+    switch (type) {
+    case 0:
+      return "Savings";
+    case 1:
+      return "Pleasure";
+    case 2:
+      return "Vehicle";
+    case 3:
+      return "Clothes";
+    case -1:
+      return 'Total';
+    default:
+      return "";
+    }
   }
 
-  getAmountColor(amount: number): string {
-    if (amount > 0) return 'green';
-    else if (amount < 0) return 'red';
+  getValueColor(value: number): string {
+    if (value > 0) return 'green';
+    else if (value < 0) return 'red';
     else return 'yellow';
+  }
+
+  getFormattedDate(date: Date): any {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
+  }
+
+  isTotal(type: number): boolean {
+    return type < 0;
   }
 
   private log(message: string) {

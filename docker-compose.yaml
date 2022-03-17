@@ -30,6 +30,8 @@ services:
     restart: on-failure
     volumes:
     - mariadb:/var/lib/mysql
+    - ./database/schema.sql:/docker-entrypoint-initdb.d/1.sql
+    - ./database/data.sql:/docker-entrypoint-initdb.d/2.sql
     environment:
     - MYSQL_ROOT_PASSWORD=glopglop
     - MYSQL_DATABASE=db

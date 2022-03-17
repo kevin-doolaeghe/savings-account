@@ -52,7 +52,7 @@ export class BalanceRepartitionChartComponent implements OnInit {
   ngOnInit(): void {
     let colors = [ 'rgba(66,133,244,0.7)', 'rgba(219,68,55,0.7)', 'rgba(244,180,0,0.7)', 'rgba(15,157,88,0.7)' ];
     this.chartData.datasets = [{
-      data: this.balanceSheet.getRepartition(),
+      data: this.balanceSheet.getPercentageSet(),
       backgroundColor: colors,
       borderColor: 'rgba(0,0,0,0)',
       hoverBackgroundColor: colors,

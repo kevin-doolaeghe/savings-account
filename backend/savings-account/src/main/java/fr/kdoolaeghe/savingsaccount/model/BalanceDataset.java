@@ -1,13 +1,19 @@
 package fr.kdoolaeghe.savingsaccount.model;
 
+import lombok.*;
+
 import java.util.Date;
+import java.util.List;
 
-public interface IBalanceDataset {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class BalanceDataset {
 
-    Date getDate();
+    private Date date;
 
-    String getValues();
+    private List<Double> values;
 
-    Double getTotal();
-
+    private Double total;
 }

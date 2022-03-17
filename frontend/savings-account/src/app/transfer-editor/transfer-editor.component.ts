@@ -38,7 +38,7 @@ export class TransferEditorComponent implements OnInit {
     id: [-1],
     description: ['', Validators.required],
     date: ['', Validators.required],
-    amount: ['', Validators.required],
+    value: ['', Validators.required],
     type: ['', Validators.required],
     status: ['', Validators.required]
   });
@@ -52,8 +52,8 @@ export class TransferEditorComponent implements OnInit {
     this.transferForm = this.fb.group({
       id: [this.transfer.id],
       description: [this.transfer.description, Validators.required],
-      date: [this.transfer.date, Validators.required],
-      amount: [this.transfer.amount, Validators.required],
+      date: [this.service.getFormattedDate(this.transfer.date), Validators.required],
+      value: [this.transfer.value, Validators.required],
       type: [this.transfer.type, Validators.required],
       status: [this.transfer.status, Validators.required]
     });
@@ -76,14 +76,6 @@ export class TransferEditorComponent implements OnInit {
         }
       },
       complete: () => {
-        this.transferForm = this.fb.group({
-          id: [this.transfer.id],
-          description: [this.transfer.description, Validators.required],
-          date: [this.transfer.date],
-          amount: [this.transfer.amount, Validators.required],
-          type: [this.transfer.type, Validators.required],
-          status: [this.transfer.status, Validators.required]
-        });
         this.error = "Successfully updated transfer.";
       }
     });

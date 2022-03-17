@@ -1,23 +1,29 @@
 package fr.kdoolaeghe.savingsaccount.repository;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import fr.kdoolaeghe.savingsaccount.model.BalanceDataset;
 
-public class CustomizedTransferRepositoryImpl implements CustomizedTransferRepository {
+import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class CustomTransferRepositoryImpl implements CustomTransferRepository {
 
     @PersistenceContext
     private EntityManager em;
 
     /*
         SET @sql=NULL;
-        SELECT COALESCE((SELECT GROUP_CONCAT(DISTINCT CONCAT(
-            'SUM(IF(t.type=',type,',value,0)) AS "type',type,'"'
-        )) FROM transfers),'NULL') AS 'headers' INTO @sql;
+        SELECT GROUP_CONCAT(DISTINCT CONCAT(
+            'SUM(IF(t.type=',type,',t.value,0))'
+        ) SEPARATOR ',",",') INTO @sql FROM transfers;
         SET @sql=CONCAT(
-            'SELECT t.date,',
+            'SELECT t.date,CONCAT("[",',
             @sql,
-            ',SUM(t.value) AS "total" FROM transfers t GROUP BY t.date ORDER BY t.date DESC'
+            ',"]") AS "values",SUM(t.value) AS "total" FROM transfers t GROUP BY t.date ORDER BY t.date DESC'
         );
         SELECT @sql;
         PREPARE stmt FROM @sql;
@@ -25,13 +31,18 @@ public class CustomizedTransferRepositoryImpl implements CustomizedTransferRepos
     */
     @Override
     @SuppressWarnings("unchecked")
-    public List<Object> getBalanceDatasets() {
-        String headers = (String) em.createNativeQuery("SELECT GROUP_CONCAT(DISTINCT CONCAT(\n" +
-                "'SUM(IF(t.type=',type,',value,0)) AS `type',type,'`')) FROM transfers").getSingleResult();
-        if (headers != null)
-            return em.createNativeQuery("SELECT t.date," + headers + ",SUM(t.value) AS 'total'\n" +
-                    "FROM transfers t GROUP BY t.date ORDER BY t.date DESC").getResultList();
-        else
-            return new ArrayList<>();
+    public List<BalanceDataset> getBalanceDatasets() {
+        String headers = (String) em.createNativeQuery("SELECT GROUP_CONCAT(DISTINCT CONCAT('SUM(IF(t.type='," +
+                "type,',value,0))') SEPARATOR ',\",\",') FROM transfers").getSingleResult();
+        if (headers == null) return new ArrayList<>();
+        List<Tuple> tuples = em.createNativeQuery("SELECT t.date,CONCAT(" + headers + "),SUM(t.value)\n" +
+                "FROM transfers t GROUP BY t.date ORDER BY t.date DESC", Tuple.class).getResultList();
+        return tuples.stream().map(tuple -> {
+            List<Double> values = Stream
+                    .of(new String((byte[]) tuple.get(1), StandardCharsets.UTF_8).split(","))
+                    .map(Double::parseDouble)
+                    .collect(Collectors.toList());
+            return new BalanceDataset(tuple.get(0, Date.class), values, tuple.get(2, Double.class));
+        }).collect(Collectors.toList());
     }
 }

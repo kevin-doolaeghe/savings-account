@@ -4,12 +4,12 @@
   </div>
   <form *ngIf="showTransferCreator" [formGroup]="transferForm" (ngSubmit)="createTransfer()">
     <label for="description">*Description: </label>
-    <input id="description" placeholder="Transfer to savings account" formControlName="description" required />
+    <input id="description" max="100" placeholder="Transfer to savings account" formControlName="description" required />
     <label for="date">*Date: </label>
     <input id="date" type="date" formControlName="date" required />
-    <label for="amount">*Amount: </label>
+    <label for="value">*Value: </label>
     <div class="unit-input">
-      <input id="amount" type="number" min="-1000" max="1000" placeholder="50" formControlName="amount" required />
+      <input id="value" type="number" min="-2000" max="2000" placeholder="50" formControlName="value" required />
       <span class="unit">€</span>
     </div>
     <label for="type">*Type: </label>

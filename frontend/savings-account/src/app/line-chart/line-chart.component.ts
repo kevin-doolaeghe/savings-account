@@ -54,7 +54,7 @@ export class LineChartComponent implements OnInit {
           displayFormats: {
             quarter: 'MMM YYYY',
           },
-          tooltipFormat: 'dd/MM/yyyy',
+          tooltipFormat: 'yyyy-MM-dd',
         },
       },
       y: {

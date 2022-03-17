@@ -5,24 +5,20 @@ import { Observable, Subject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 export class Transfer {
-
   constructor(
       public id: number = -1,
       public description: string = "",
       public date: Date = new Date(),
-      public amount: number = 0,
+      public value: number = 0,
       public type: TransferType = TransferType.SAVINGS,
       public status: boolean = false) { }
-
 }
 
 export enum TransferType {
-
-  SAVINGS = "SAVINGS",
-  PLEASURE = "PLEASURE",
-  VEHICLE = "VEHICLE",
-  CLOTHES = "CLOTHES"
-
+  SAVINGS,
+  PLEASURE,
+  VEHICLE,
+  CLOTHES,
 }
 
 @Injectable({
@@ -38,7 +34,7 @@ export class TransferService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private datePipe: DatePipe) { }
 
   getTransferList(): Observable<Transfer[]> {
     return this.http.get<Transfer[]>(this.url, this.httpOptions).pipe(
@@ -98,20 +94,35 @@ export class TransferService {
       return '';
     }
   }
+  
+  getTypeName(type: TransferType): string {
+    switch (type) {
+    case TransferType.SAVINGS:
+      return "Savings";
+    case TransferType.PLEASURE:
+      return "Pleasure";
+    case TransferType.VEHICLE:
+      return "Vehicle";
+    case TransferType.CLOTHES:
+      return "Clothes";
+    default:
+      return "";
+    }
+  }
 
   getStatusIcon(status: boolean): string {
     if (status) return '✔️';
     else return '❌';
   }
 
-  getAmountColor(amount: number): string {
-    if (amount > 0) return 'green';
-    else if (amount < 0) return 'red';
+  getValueColor(value: number): string {
+    if (value > 0) return 'green';
+    else if (value < 0) return 'red';
     else return 'yellow';
   }
 
-  getFormattedDate(date: Date, datePipe: DatePipe): any {
-    return datePipe.transform(date, 'dd/MM/yyyy');
+  getFormattedDate(date: Date): any {
+    return this.datePipe.transform(date, 'yyyy-MM-dd');
   }
 
   private log(message: string) {

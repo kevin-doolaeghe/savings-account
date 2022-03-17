@@ -34,7 +34,7 @@ export class TransferCreatorComponent implements OnInit {
 
   transferForm = this.fb.group({
     description: ['', Validators.required],
-    date: [new Date(), Validators.required],
+    date: [this.service.getFormattedDate(new Date()), Validators.required],
     amount: ['', Validators.required],
     type: [this.transferTypes[0].value, Validators.required],
     status: [this.transferStatus[0].value, Validators.required]
@@ -72,7 +72,7 @@ export class TransferCreatorComponent implements OnInit {
       complete: () => {
         this.transferForm = this.fb.group({
           description: ['', Validators.required],
-          date: [new Date(), Validators.required],
+          date: [this.service.getFormattedDate(new Date()), Validators.required],
           amount: ['', Validators.required],
           type: [this.transferTypes[0].value, Validators.required],
           status: [this.transferStatus[0].value, Validators.required]

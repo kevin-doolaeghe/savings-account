@@ -1,48 +1,32 @@
 package fr.kdoolaeghe.savingsaccount.service;
 
-import fr.kdoolaeghe.savingsaccount.model.Transfer;
+import fr.kdoolaeghe.savingsaccount.model.BalanceDataset;
+import fr.kdoolaeghe.savingsaccount.model.BalanceSheet;
 import fr.kdoolaeghe.savingsaccount.repository.TransferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class TransferService {
+public class BalanceService {
 
     @Autowired
     private TransferRepository transferRepository;
 
-    public List<Transfer> getTransferList() {
-        return transferRepository.findAll(Sort.by(Sort.Direction.DESC, "date"));
+    public BalanceSheet getBalanceSheet() {
+        return new BalanceSheet(transferRepository.getBalanceSheet(), transferRepository.getBalanceTotal());
     }
 
-    public Transfer getTransferById(Long id) {
-        Optional<Transfer> found = transferRepository.findById(id);
-        return found.orElse(null);
+    public Double getBalanceByType(Long type) {
+        return transferRepository.getBalanceByType(type);
     }
 
-    public Transfer createTransfer(Transfer transfer) {
-        Transfer found = getTransferById(transfer.getId());
-        if (found == null) return transferRepository.save(transfer);
-        return null;
+    public Double getBalanceTotal() {
+        return transferRepository.getBalanceTotal();
     }
 
-    public boolean deleteTransferById(Long id) {
-        Transfer found = getTransferById(id);
-        if (found != null) {
-            transferRepository.deleteById(found.getId());
-            return true;
-        }
-        return false;
+    public List<BalanceDataset> getBalanceDatasets() {
+        return transferRepository.getBalanceDatasets();
     }
-
-    public Transfer updateTransfer(Transfer transfer) {
-        Transfer found = getTransferById(transfer.getId());
-        if (found != null) return transferRepository.save(transfer);
-        return null;
-    }
-
 }

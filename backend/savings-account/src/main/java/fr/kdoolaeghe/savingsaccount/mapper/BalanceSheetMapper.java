@@ -1,53 +1,32 @@
 package fr.kdoolaeghe.savingsaccount.mapper;
 
-import fr.kdoolaeghe.savingsaccount.dto.TransferGetDto;
-import fr.kdoolaeghe.savingsaccount.dto.TransferPostDto;
-import fr.kdoolaeghe.savingsaccount.model.Transfer;
+import fr.kdoolaeghe.savingsaccount.dto.BalanceSheetDto;
+import fr.kdoolaeghe.savingsaccount.model.BalanceSheet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TransferMapper {
+public class BalanceSheetMapper {
 
-    public static TransferGetDto toTransferDto(Transfer transfer) {
-        return TransferGetDto.builder()
-                .id(transfer.getId())
-                .description(transfer.getDescription())
-                .date(transfer.getDate())
-                .value(transfer.getValue())
-                .type(transfer.getType())
-                .status(transfer.getStatus())
+    public static BalanceSheetDto toBalanceSheetDto(BalanceSheet balanceSheet) {
+        return BalanceSheetDto.builder()
+                .entries(toBalanceEntryListDto(balanceSheet.getEntries()))
+                .total(balanceSheet.getTotal())
                 .build();
     }
 
-    public static List<TransferGetDto> toTransferDtoList(List<Transfer> transferList) {
-        List<TransferGetDto> transferDtoList = new ArrayList<>();
-        for (Transfer transfer : transferList) {
-            transferDtoList.add(toTransferDto(transfer));
-        }
-        return transferDtoList;
-    }
-
-    public static Transfer toTransfer(TransferPostDto transferDto) {
-        return Transfer.builder()
-                .id(Long.MIN_VALUE)
-                .description(transferDto.getDescription())
-                .date(transferDto.getDate())
-                .value(transferDto.getValue())
-                .type(transferDto.getType())
-                .status(transferDto.getStatus())
+    public static BalanceSheetDto.BalanceEntryDto toBalanceEntryDto(BalanceSheet.BalanceEntry balanceEntry) {
+        return BalanceSheetDto.BalanceEntryDto.builder()
+                .type(balanceEntry.getType())
+                .value(balanceEntry.getValue())
                 .build();
     }
 
-    public static List<Transfer> toTransferList(List<TransferPostDto> transferDtoList) {
-        List<Transfer> transferList = new ArrayList<>();
-        for (TransferPostDto dto : transferDtoList) {
-            transferList.add(toTransfer(dto));
+    public static List<BalanceSheetDto.BalanceEntryDto> toBalanceEntryListDto(List<BalanceSheet.BalanceEntry> balanceEntryList) {
+        List<BalanceSheetDto.BalanceEntryDto> balanceEntryListDto = new ArrayList<>();
+        for (BalanceSheet.BalanceEntry balanceEntry : balanceEntryList) {
+            balanceEntryListDto.add(toBalanceEntryDto(balanceEntry));
         }
-        return transferList;
+        return balanceEntryListDto;
     }
-
-
-
-
 }

@@ -1,81 +1,49 @@
 package fr.kdoolaeghe.savingsaccount.controller;
 
-import fr.kdoolaeghe.savingsaccount.dto.TransferGetDto;
-import fr.kdoolaeghe.savingsaccount.dto.TransferPostDto;
-import fr.kdoolaeghe.savingsaccount.mapper.TransferMapper;
-import fr.kdoolaeghe.savingsaccount.model.Balance;
-import fr.kdoolaeghe.savingsaccount.model.Transfer;
-import fr.kdoolaeghe.savingsaccount.service.TransferService;
+import fr.kdoolaeghe.savingsaccount.dto.BalanceSheetDto;
+import fr.kdoolaeghe.savingsaccount.dto.BalanceDatasetDto;
+import fr.kdoolaeghe.savingsaccount.mapper.BalanceDatasetMapper;
+import fr.kdoolaeghe.savingsaccount.mapper.BalanceSheetMapper;
+import fr.kdoolaeghe.savingsaccount.model.BalanceDataset;
+import fr.kdoolaeghe.savingsaccount.model.BalanceSheet;
+import fr.kdoolaeghe.savingsaccount.service.BalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/transfers")
+@RequestMapping("/balance")
 @RestController
 @CrossOrigin(maxAge = 3600)
-public class TransferController {
+public class BalanceController {
 
     @Autowired
-    private TransferService transferService;
+    private BalanceService balanceService;
 
     @GetMapping("")
-    public ResponseEntity<List<TransferGetDto>> getAllTransfers() {
-        List<Transfer> transferList = transferService.getAllTransfers();
+    public ResponseEntity<BalanceSheetDto> getBalanceSheet() {
+        BalanceSheet balanceSheet = balanceService.getBalanceSheet();
 
-        List<TransferGetDto> transferDtoList = TransferMapper.toTransferDtoList(transferList);
-        return ResponseEntity.ok(transferDtoList);
+        BalanceSheetDto dto = BalanceSheetMapper.toBalanceSheetDto(balanceSheet);
+        return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TransferGetDto> getTransferById(@PathVariable Long id) {
-        Transfer transfer = transferService.getTransferById(id);
-        if (transfer == null) return ResponseEntity.notFound().build();
-
-        TransferGetDto transferDto = TransferMapper.toTransferDto(transfer);
-        return ResponseEntity.ok(transferDto);
+    @GetMapping("/{type}")
+    public ResponseEntity<Double> getBalanceByType(@PathVariable Long type) {
+        return ResponseEntity.ok(balanceService.getBalanceByType(type));
     }
 
-    @GetMapping("/balance")
-    public ResponseEntity<List<Balance>> getBalanceSheet() {
-        return ResponseEntity.ok(transferService.getBalanceSheet());
+    @GetMapping("/total")
+    public ResponseEntity<Double> getBalanceTotal() {
+        return ResponseEntity.ok(balanceService.getBalanceTotal());
     }
 
-    @GetMapping("/balance/datasets")
-    public ResponseEntity<List<Object>> getBalanceDatasets() {
-        return ResponseEntity.ok(transferService.getBalanceDatasets());
+    @GetMapping("/datasets")
+    public ResponseEntity<List<BalanceDatasetDto>> getBalanceDatasets() {
+        List<BalanceDataset> datasets = balanceService.getBalanceDatasets();
+
+        List<BalanceDatasetDto> dto = BalanceDatasetMapper.toBalanceDatasetListDto(datasets);
+        return ResponseEntity.ok(dto);
     }
-
-    @PostMapping("")
-    public ResponseEntity<TransferGetDto> createTransfer(@RequestBody TransferPostDto transferDto) {
-        Transfer fromDto = TransferMapper.toTransfer(transferDto);
-
-        Transfer createdTransfer = transferService.createTransfer(fromDto);
-        if (createdTransfer == null) return ResponseEntity.badRequest().build();
-
-        TransferGetDto createdTransferGetDto = TransferMapper.toTransferDto(createdTransfer);
-        return ResponseEntity.ok(createdTransferGetDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<TransferGetDto> deleteTransfer(@PathVariable Long id) {
-        boolean status = transferService.deleteTransferById(id);
-        if (!status) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<TransferGetDto> updateTransfer(@PathVariable Long id, @RequestBody TransferPostDto transferDto) {
-        Transfer fromDto = TransferMapper.toTransfer(transferDto);
-        fromDto.setId(id);
-
-        Transfer updatedTransfer = transferService.updateTransfer(fromDto);
-        if (updatedTransfer == null) return ResponseEntity.notFound().build();
-
-        TransferGetDto updatedTransferDto = TransferMapper.toTransferDto(updatedTransfer);
-        return ResponseEntity.ok(updatedTransferDto);
-    }
-
 }

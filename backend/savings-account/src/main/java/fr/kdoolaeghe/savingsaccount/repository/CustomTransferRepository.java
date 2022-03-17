@@ -1,9 +1,10 @@
 package fr.kdoolaeghe.savingsaccount.repository;
 
+import fr.kdoolaeghe.savingsaccount.model.BalanceDataset;
+
 import java.util.List;
 
-public interface CustomizedTransferRepository {
+public interface CustomTransferRepository {
 
-    List<Object> getBalanceDatasets();
-
+    List<BalanceDataset> getBalanceDatasets();
 }
