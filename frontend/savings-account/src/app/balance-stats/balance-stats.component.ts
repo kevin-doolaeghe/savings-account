@@ -1,19 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartData } from 'chart.js';
 
+import { BalanceData } from '../balance-dataset';
 import { BalanceService } from '../balance.service';
-
-export class TransferData {
-
-  constructor(
-      public time: Array<Date> = [],
-      public savings: Array<number> = [],
-      public pleasure: Array<number> = [],
-      public clothes: Array<number> = [],
-      public vehicle: Array<number> = [],
-      public total: Array<number> = []) { }
-
-}
 
 @Component({
   selector: 'app-balance-stats',
@@ -21,22 +10,18 @@ export class TransferData {
   styleUrls: ['./balance-stats.component.css']
 })
 export class BalanceStatsComponent implements OnInit {
-
   chartTitle1: string = "Balance sheet by type";
-
   chartData1: ChartData = { labels: [], datasets: [] };
 
   chartTitle2: string = "Total balance";
-
   chartData2: ChartData = { labels: [], datasets: [] };
   
-  datasets: Array<any> = [];
-
+  data: BalanceData = new BalanceData();
   sub: any;
 
   constructor(private service: BalanceService) {
     this.service.getBalanceDatasets().subscribe({
-      next: (data) => this.datasets = data,
+      next: (data) => this.data = data,
       error: (err) => console.error(err),
       complete: () => this.setupChartData(),
     });
@@ -45,15 +30,14 @@ export class BalanceStatsComponent implements OnInit {
   ngOnInit(): void { }
   
   setupChartData(): void {
-    if (this.datasets.length == 0) return;
-    let transferData = this.setupData(this.datasets);
+    if (this.data.isEmpty()) return;
 
     this.chartData1 = {
-      labels: transferData.time,
+      labels: this.data.time,
       datasets: [
         {
           label: '💸 Savings',
-          data: transferData.savings,
+          data: this.data.savings,
           backgroundColor: 'rgba(66,133,244,0.7)',
           borderColor: 'rgba(66,133,244,1)',
           pointBackgroundColor: 'rgba(66,133,244,1)',
@@ -64,7 +48,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '🎁 Pleasure',
-          data: transferData.pleasure,
+          data: this.data.pleasure,
           backgroundColor: 'rgba(219,68,55,0.7)',
           borderColor: 'rgba(219,68,55,1)',
           pointBackgroundColor: 'rgba(219,68,55,1)',
@@ -75,7 +59,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '🚗 Vehicle',
-          data: transferData.vehicle,
+          data: this.data.vehicle,
           backgroundColor: 'rgba(15,157,88,0.7)',
           borderColor: 'rgba(15,157,88,1)',
           pointBackgroundColor: 'rgba(15,157,88,1)',
@@ -86,7 +70,7 @@ export class BalanceStatsComponent implements OnInit {
         },
         {
           label: '👕 Clothes',
-          data: transferData.clothes,
+          data: this.data.clothes,
           backgroundColor: 'rgba(244,180,0,0.7)',
           borderColor: 'rgba(244,180,0,1)',
           pointBackgroundColor: 'rgba(244,180,0,1)',
@@ -99,11 +83,11 @@ export class BalanceStatsComponent implements OnInit {
     };
 
     this.chartData2 = {
-      labels: transferData.time,
+      labels: this.data.time,
       datasets: [
         {
           label: '⚖️ Total',
-          data: transferData.total,
+          data: this.data.total,
           backgroundColor: 'rgba(255,215,0,0.3)',
           borderColor: 'rgba(255,215,0,1)',
           pointBackgroundColor: 'rgba(255,215,0,1)',
@@ -116,26 +100,4 @@ export class BalanceStatsComponent implements OnInit {
       ],
     };
   }
-
-  setupData(datasets: Array<any>): TransferData {
-    let data = new TransferData();
-    datasets.forEach((row: Array<any>, i: number) => {
-      data.time[i] = row[0];
-      if (i == 0) {
-        data.savings[i] = row[1];
-        data.pleasure[i] = row[2];
-        data.clothes[i] = row[3];
-        data.vehicle[i] = row[4];
-        data.total[i] = row[5];
-      } else {
-        data.savings[i] = data.savings[i - 1] + row[1];
-        data.pleasure[i] = data.pleasure[i - 1] + row[2];
-        data.clothes[i] = data.clothes[i - 1] + row[3];
-        data.vehicle[i] = data.vehicle[i - 1] + row[4];
-        data.total[i] = data.total[i - 1] + row[5];
-      }
-    });
-    return data;
-  }
-
 }

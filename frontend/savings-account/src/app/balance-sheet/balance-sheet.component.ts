@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BalanceService, BalanceSheet } from '../balance.service';
+import { BalanceSheet } from '../balance-sheet';
+import { BalanceService } from '../balance.service';
 
 @Component({
   selector: 'app-balance-sheet',
@@ -8,7 +9,6 @@ import { BalanceService, BalanceSheet } from '../balance.service';
   styleUrls: ['./balance-sheet.component.css']
 })
 export class BalanceSheetComponent implements OnInit {
-
   balanceSheet: BalanceSheet = new BalanceSheet();
 
   constructor(public service: BalanceService) {
@@ -20,5 +20,4 @@ export class BalanceSheetComponent implements OnInit {
   }
 
   ngOnInit(): void { }
-
 }

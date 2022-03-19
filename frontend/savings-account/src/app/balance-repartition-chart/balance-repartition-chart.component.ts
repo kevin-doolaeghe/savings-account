@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ChartData, ChartOptions, ChartType } from 'chart.js';
 
-import { BalanceSheet } from '../balance.service';
+import { BalanceSheet } from '../balance-sheet';
 
 @Component({
   selector: 'app-balance-repartition-chart',
@@ -9,14 +9,12 @@ import { BalanceSheet } from '../balance.service';
   styleUrls: ['./balance-repartition-chart.component.css']
 })
 export class BalanceRepartitionChartComponent implements OnInit {
-
   @Input() balanceSheet: BalanceSheet = new BalanceSheet();
 
   chartData: ChartData = {
     labels: [ '💸 Savings', '🎁 Pleasure', '🚗 Vehicle', '👕 Clothes' ],
     datasets: [],
   };
-
   chartOptions: ChartOptions = {
     plugins: {
       title: {
@@ -40,11 +38,10 @@ export class BalanceRepartitionChartComponent implements OnInit {
     },
     responsive: true,
   };
-
   chartType: ChartType = "doughnut";
 
   public chartClicked(e: any): void { console.log(e); }
-
+  
   public chartHovered(e: any): void { console.log(e); }
 
   constructor() { }

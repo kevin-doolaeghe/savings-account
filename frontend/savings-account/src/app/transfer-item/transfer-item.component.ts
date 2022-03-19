@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Transfer, TransferService } from '../transfer.service';
+import { Transfer } from '../transfer';
+import { TransferService } from '../transfer.service';
 
 @Component({
   selector: 'tr[app-transfer-item]',
@@ -8,7 +9,6 @@ import { Transfer, TransferService } from '../transfer.service';
   styleUrls: ['./transfer-item.component.css']
 })
 export class TransferItemComponent implements OnInit {
-
   @Input() transfer: Transfer = new Transfer();
 
   showEditor: Boolean = false;
@@ -26,9 +26,8 @@ export class TransferItemComponent implements OnInit {
   }
 
   deleteTransfer() {
-    this.service.deleteTransfer(this.transfer.id).subscribe(
-      _ => this.service.sendUpdate("Update from TransferDestroyerComponent")
+    this.service.deleteTransferById(this.transfer.id).subscribe(
+      _ => this.service.sendUpdate("update from TransferDestroyerComponent")
     );
   }
-
 }

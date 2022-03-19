@@ -14,13 +14,13 @@
     </div>
     <label for="type">*Type: </label>
     <select name="type" formControlName="type" required>
-      <option *ngFor="let type of transferTypes" [value]="type.value">
+      <option *ngFor="let type of selectOptions.types" [value]="type.value">
         {{ type.name }}
       </option>
     </select>
     <label for="status">*Status: </label>
     <select name="status" formControlName="status" required>
-      <option *ngFor="let status of transferStatus" [value]="status.value">
+      <option *ngFor="let status of selectOptions.status" [value]="status.value">
         {{ status.name }}
       </option>
     </select>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Transfer, TransferService } from '../transfer.service';
+import { Transfer } from '../transfer';
+import { TransferService } from '../transfer.service';
 
 @Component({
   selector: 'app-transfer-list',
@@ -8,9 +9,7 @@ import { Transfer, TransferService } from '../transfer.service';
   styleUrls: ['./transfer-list.component.css']
 })
 export class TransferListComponent implements OnInit, OnDestroy {
-
   transferList: Array<Transfer> = [];
-
   sub: any;
 
   constructor(private service: TransferService) {
@@ -35,5 +34,4 @@ export class TransferListComponent implements OnInit, OnDestroy {
   private log(message: string) {
     console.log(`TransferListComponent: ${message}`);
   }
-
 }

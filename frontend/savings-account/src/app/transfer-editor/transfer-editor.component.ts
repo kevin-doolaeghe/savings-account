@@ -1,17 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { Transfer, TransferService, TransferType } from '../transfer.service';
-
-interface Type {
-  value: TransferType;
-  name: String;
-}
-
-interface Status {
-  value: Boolean;
-  name: String;
-}
+import { Transfer, transferTypes, transferStatus } from '../transfer';
+import { TransferService } from '../transfer.service';
 
 @Component({
   selector: 'app-transfer-editor',
@@ -19,20 +10,7 @@ interface Status {
   styleUrls: ['./transfer-editor.component.css']
 })
 export class TransferEditorComponent implements OnInit {
-
   @Input() transfer: Transfer = new Transfer();
-
-  transferTypes: Type[] = [
-    { value: TransferType.SAVINGS, name: '💸 Savings' },
-    { value: TransferType.PLEASURE, name: '🎁 Pleasure' },
-    { value: TransferType.CLOTHES, name: '👕 Clothes' },
-    { value: TransferType.VEHICLE, name: '🚗 Vehicle' },
-  ];
-
-  transferStatus: Status[] = [
-    { value: true, name: '✔️ Done' },
-    { value: false, name: '❌ Waiting' },
-  ];
   
   transferForm = this.fb.group({
     id: [-1],
@@ -42,7 +20,7 @@ export class TransferEditorComponent implements OnInit {
     type: ['', Validators.required],
     status: ['', Validators.required]
   });
-
+  selectOptions = { types: transferTypes, status: transferStatus };
   error = "";
 
   constructor(private fb: FormBuilder, private service: TransferService) { }
@@ -52,7 +30,7 @@ export class TransferEditorComponent implements OnInit {
     this.transferForm = this.fb.group({
       id: [this.transfer.id],
       description: [this.transfer.description, Validators.required],
-      date: [this.service.getFormattedDate(this.transfer.date), Validators.required],
+      date: [this.transfer.getFormattedDate(), Validators.required],
       value: [this.transfer.value, Validators.required],
       type: [this.transfer.type, Validators.required],
       status: [this.transfer.status, Validators.required]
@@ -80,5 +58,4 @@ export class TransferEditorComponent implements OnInit {
       }
     });
   }
-
 }

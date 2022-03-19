@@ -9,9 +9,7 @@ import { enGB } from 'date-fns/locale';
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit {
-
   @Input() chartTitle: string = "";
-
   @Input() chartData: ChartData = { labels: [], datasets: [] };
 
   chartOptions: ChartOptions = {
@@ -64,7 +62,6 @@ export class LineChartComponent implements OnInit {
     },
     responsive: true,
   };
-
   chartType: ChartType = "line";
 
   public chartClicked(e: any): void { console.log(e); }
@@ -74,5 +71,4 @@ export class LineChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void { }
-
 }

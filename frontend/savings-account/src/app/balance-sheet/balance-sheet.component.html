@@ -1,14 +1,25 @@
 <h2>Balance sheet:</h2>
 <div *ngIf="!balanceSheet.isEmpty()">
     <ul>
-        <li *ngFor="let entry of balanceSheet.sheet">
+        <li *ngFor="let entry of balanceSheet.entries">
             <div>
                 <div class="type">
-                    <div>{{ service.getTypeIcon(entry.type) }}</div>
-                    <div>{{ service.getTypeName(entry.type) }}</div>
+                    <div>{{ entry.getTypeIcon() }}</div>
+                    <div>{{ entry.getTypeName() }}</div>
                 </div>
-                <div class="value" [ngClass]="service.isTotal(entry.type) ? 'total' : ''" [ngClass]="service.getValueColor(entry.value)">
+                <div class="value" [ngClass]="entry.getValueColor()">
                     {{ entry.value }}
+                </div>
+            </div>
+        </li>
+        <li>
+            <div>
+                <div class="type">
+                    <div>{{ balanceSheet.getTotalIcon() }}</div>
+                    <div>{{ balanceSheet.getTotalName() }}</div>
+                </div>
+                <div class="total" [ngClass]="balanceSheet.getTotalColor()">
+                    {{ balanceSheet.total }}
                 </div>
             </div>
         </li>

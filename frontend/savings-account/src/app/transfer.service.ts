@@ -1,25 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
-export class Transfer {
-  constructor(
-      public id: number = -1,
-      public description: string = "",
-      public date: Date = new Date(),
-      public value: number = 0,
-      public type: TransferType = TransferType.SAVINGS,
-      public status: boolean = false) { }
-}
+import { Transfer, ITransfer } from './transfer';
 
-export enum TransferType {
-  SAVINGS,
-  PLEASURE,
-  VEHICLE,
-  CLOTHES,
-}
+const API_URL = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -28,31 +15,32 @@ export class TransferService {
 
   private notifier = new Subject<any>();
 
-  private url = 'http://localhost:8080/transfers';
-  
-  private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient, private datePipe: DatePipe) { }
-
-  getTransferList(): Observable<Transfer[]> {
-    return this.http.get<Transfer[]>(this.url, this.httpOptions).pipe(
+  public getTransferList(): Observable<Array<Transfer>> {
+    return this.http.get<Array<ITransfer>>(`${API_URL}/transfers`).pipe(
       tap(_ => this.log(`fetched transfer list`)),
-      catchError(this.handleError<Transfer[]>(`getTransferList`)),
+      map(transferList => transferList.map(transfer => new Transfer(
+          transfer.id,
+          transfer.description,
+          transfer.date,
+          transfer.value,
+          transfer.type,
+          transfer.status
+      ))),
+      catchError(this.handleError<Array<Transfer>>(`getTransferList`)),
     );
   }
 
-  getTransfer(id: number): Observable<Transfer> {
-    const url = `${this.url}/${id}`;
-    return this.http.get<Transfer>(url, this.httpOptions).pipe(
+  public getTransferById(id: number): Observable<Transfer> {
+    return this.http.get<Transfer>(`${API_URL}/transfers/${id}`).pipe(
       tap(_ => this.log(`fetched transfer id=${id}`)),
       catchError(this.handleError<Transfer>(`getTransfer id=${id}`)),
     );
   }
 
   createTransfer(transfer: Transfer): Observable<Transfer> {
-    return this.http.post<Transfer>(this.url, transfer, this.httpOptions).pipe(
+    return this.http.post<Transfer>(`${API_URL}/transfers`, transfer).pipe(
       tap((newTransfer: Transfer) => this.log(`added transfer id=${newTransfer.id}`)),
       catchError(e => {
         console.error(e);
@@ -61,68 +49,21 @@ export class TransferService {
     );
   }
 
-  deleteTransfer(id: number): Observable<Transfer> {
-    const url = `${this.url}/${id}`;
-    return this.http.delete<Transfer>(url, this.httpOptions).pipe(
+  deleteTransferById(id: number): Observable<Transfer> {
+    return this.http.delete<Transfer>(`${API_URL}/transfers/${id}`).pipe(
       tap(_ => this.log(`deleted transfer id=${id}`)),
       catchError(this.handleError<Transfer>('deleteTransfer')),
     );
   }
 
   updateTransfer(transfer: Transfer): Observable<any> {
-    const url = `${this.url}/${transfer.id}`;
-    return this.http.patch(url, transfer, this.httpOptions).pipe(
+    return this.http.patch(`${API_URL}/transfers/${transfer.id}`, transfer).pipe(
       tap(_ => this.log(`updated transfer id=${transfer.id}`)),
       catchError(e => {
         console.error(e);
         throw e;
       }),
     );
-  }
-
-  getTypeIcon(type: TransferType): string {
-    switch (type) {
-    case TransferType.SAVINGS:
-      return '💸';
-    case TransferType.PLEASURE:
-      return '🎁';
-    case TransferType.CLOTHES:
-      return '👕';
-    case TransferType.VEHICLE:
-      return '🚗';
-    default:
-      return '';
-    }
-  }
-  
-  getTypeName(type: TransferType): string {
-    switch (type) {
-    case TransferType.SAVINGS:
-      return "Savings";
-    case TransferType.PLEASURE:
-      return "Pleasure";
-    case TransferType.VEHICLE:
-      return "Vehicle";
-    case TransferType.CLOTHES:
-      return "Clothes";
-    default:
-      return "";
-    }
-  }
-
-  getStatusIcon(status: boolean): string {
-    if (status) return '✔️';
-    else return '❌';
-  }
-
-  getValueColor(value: number): string {
-    if (value > 0) return 'green';
-    else if (value < 0) return 'red';
-    else return 'yellow';
-  }
-
-  getFormattedDate(date: Date): any {
-    return this.datePipe.transform(date, 'yyyy-MM-dd');
   }
 
   private log(message: string) {
@@ -143,5 +84,4 @@ export class TransferService {
   getUpdate(): Observable<any> {
       return this.notifier.asObservable();
   }
-
 }
