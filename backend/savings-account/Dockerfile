@@ -4,6 +4,7 @@ COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
 
 FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
+COPY --from=build /home/app/target/*.jar app.jar
+COPY wait-for-it.sh wait-for-it.sh
 EXPOSE 8080
-CMD ["java", "-jar", "/usr/local/lib/app.jar"]
+CMD ["./wait-for-it.sh", "mariadb:3306", "--", "java", "-jar", "app.jar"]

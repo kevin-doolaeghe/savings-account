@@ -6,5 +6,6 @@
 
 # Installation
 ```
-docker-compose up -d
+chmod +x install.sh
+./install.sh
 ```
