@@ -16,12 +16,10 @@ export class Transfer implements ITransfer {
         public date: Date = new Date(),
         public value: number = 0,
         public type: TransferType = TransferType.SAVINGS,
-        public status: boolean = false,
-        public datePipe?: DatePipe
-    ) { }
+        public status: boolean = false) { }
 
     public getFormattedDate(): any {
-        return this.datePipe?.transform(this.date, 'yyyy-MM-dd');
+        return new DatePipe('en-US').transform(this.date, 'yyyy-MM-dd');
     }
 
     public getValueColor(): string {
@@ -51,10 +49,10 @@ export class Transfer implements ITransfer {
             return 'Savings';
         case TransferType.PLEASURE:
             return 'Pleasure';
-        case TransferType.VEHICLE:
-            return 'Vehicle';
         case TransferType.CLOTHES:
             return 'Clothes';
+        case TransferType.VEHICLE:
+            return 'Vehicle';
         default:
             return '';
         }
@@ -69,8 +67,8 @@ export class Transfer implements ITransfer {
 export enum TransferType {
     SAVINGS,
     PLEASURE,
-    VEHICLE,
     CLOTHES,
+    VEHICLE,
 }
 
 export interface Type {

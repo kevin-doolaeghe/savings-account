@@ -11,8 +11,9 @@ import { BalanceSheet } from '../balance-sheet';
 export class BalanceRepartitionChartComponent implements OnInit {
   @Input() balanceSheet: BalanceSheet = new BalanceSheet();
 
+  // todo: automate icons and texts
   chartData: ChartData = {
-    labels: [ '💸 Savings', '🎁 Pleasure', '🚗 Vehicle', '👕 Clothes' ],
+    labels: [ '💸 Savings', '🎁 Pleasure', '👕 Clothes', '🚗 Vehicle' ],
     datasets: [],
   };
   chartOptions: ChartOptions = {
@@ -48,6 +49,7 @@ export class BalanceRepartitionChartComponent implements OnInit {
 
   ngOnInit(): void {
     let colors = [ 'rgba(66,133,244,0.7)', 'rgba(219,68,55,0.7)', 'rgba(244,180,0,0.7)', 'rgba(15,157,88,0.7)' ];
+    console.log(this.balanceSheet.getPercentageSet());
     this.chartData.datasets = [{
       data: this.balanceSheet.getPercentageSet(),
       backgroundColor: colors,
@@ -57,5 +59,4 @@ export class BalanceRepartitionChartComponent implements OnInit {
       fill: 'origin',
     }];
   }
-
 }

@@ -21,7 +21,7 @@ export class TransferEditorComponent implements OnInit {
     status: ['', Validators.required]
   });
   selectOptions = { types: transferTypes, status: transferStatus };
-  error = "";
+  error = '';
 
   constructor(private fb: FormBuilder, private service: TransferService) { }
 
@@ -41,20 +41,20 @@ export class TransferEditorComponent implements OnInit {
     this.service.updateTransfer(this.transferForm.value as Transfer).subscribe({
       next: (v) => {
         console.log(v);
-        this.service.sendUpdate("Update from TransferEditorComponent");
+        this.service.sendUpdate('Update from TransferEditorComponent');
       },
       error: (e) => {
         console.error(e);
         switch (e.status) {
           case 404:
-            this.error = "Given transfer does not exist.";
+            this.error = 'Given transfer does not exist.';
             break;
           default:
-            this.error = "An error occured.";
+            this.error = 'An error occured.';
         }
       },
       complete: () => {
-        this.error = "Successfully updated transfer.";
+        this.error = 'Successfully updated transfer.';
       }
     });
   }

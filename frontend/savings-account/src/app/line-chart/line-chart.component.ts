@@ -9,7 +9,7 @@ import { enGB } from 'date-fns/locale';
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit {
-  @Input() chartTitle: string = "";
+  @Input() chartTitle: string = '';
   @Input() chartData: ChartData = { labels: [], datasets: [] };
 
   chartOptions: ChartOptions = {
@@ -58,6 +58,7 @@ export class LineChartComponent implements OnInit {
       y: {
         display: true,
         stacked: true,
+        suggestedMin: 0,
       },
     },
     responsive: true,

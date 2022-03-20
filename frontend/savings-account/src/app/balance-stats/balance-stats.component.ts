@@ -29,6 +29,7 @@ export class BalanceStatsComponent implements OnInit {
 
   ngOnInit(): void { }
   
+  // todo: increase this part
   setupChartData(): void {
     if (this.data.isEmpty()) return;
 
@@ -58,17 +59,6 @@ export class BalanceStatsComponent implements OnInit {
           fill: 'origin',
         },
         {
-          label: '🚗 Vehicle',
-          data: this.data.vehicle,
-          backgroundColor: 'rgba(15,157,88,0.7)',
-          borderColor: 'rgba(15,157,88,1)',
-          pointBackgroundColor: 'rgba(15,157,88,1)',
-          pointBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(15,157,88,1)',
-          fill: 'origin',
-        },
-        {
           label: '👕 Clothes',
           data: this.data.clothes,
           backgroundColor: 'rgba(244,180,0,0.7)',
@@ -77,6 +67,17 @@ export class BalanceStatsComponent implements OnInit {
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
           pointHoverBorderColor: 'rgba(244,180,0,1)',
+          fill: 'origin',
+        },
+        {
+          label: '🚗 Vehicle',
+          data: this.data.vehicle,
+          backgroundColor: 'rgba(15,157,88,0.7)',
+          borderColor: 'rgba(15,157,88,1)',
+          pointBackgroundColor: 'rgba(15,157,88,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(15,157,88,1)',
           fill: 'origin',
         },
       ],

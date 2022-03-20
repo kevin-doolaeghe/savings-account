@@ -36,7 +36,7 @@ public class CustomTransferRepositoryImpl implements CustomTransferRepository {
                 "type,',value,0))') SEPARATOR ',\",\",') FROM transfers").getSingleResult();
         if (headers == null) return new ArrayList<>();
         List<Tuple> tuples = em.createNativeQuery("SELECT t.date,CONCAT(" + headers + "),SUM(t.value)\n" +
-                "FROM transfers t GROUP BY t.date ORDER BY t.date DESC", Tuple.class).getResultList();
+                "FROM transfers t GROUP BY t.date ORDER BY t.date", Tuple.class).getResultList();
         return tuples.stream().map(tuple -> {
             List<Double> values = Stream
                     .of(new String((byte[]) tuple.get(1), StandardCharsets.UTF_8).split(","))

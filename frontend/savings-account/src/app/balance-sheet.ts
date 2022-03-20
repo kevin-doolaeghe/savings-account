@@ -32,7 +32,9 @@ export class BalanceSheet implements IBalanceSheet {
     }
 
     public getPercentageSet(): Array<number> {
-        return this.entries.filter(e => e.value >= 0).map(e => e.value / this.total * 100);
+        let result: Array<number> = [ 0, 0, 0, 0 ];
+        this.entries.forEach(entry => result[entry.type] = entry.value);
+        return result.map(value => value / this.total * 100);
     }
 }
 
@@ -41,13 +43,13 @@ export class BalanceEntry implements IBalanceEntry {
 
     public getTypeIcon(): string {
         switch (this.type) {
-        case 0:
+        case TransferType.SAVINGS:
             return '💸';
-        case 1:
+        case TransferType.PLEASURE:
             return '🎁';
-        case 2:
+        case TransferType.CLOTHES:
             return '👕';
-        case 3:
+        case TransferType.VEHICLE:
             return '🚗';
         default:
             return '';
@@ -56,14 +58,14 @@ export class BalanceEntry implements IBalanceEntry {
 
     public getTypeName(): string {
         switch (this.type) {
-        case 0:
+        case TransferType.SAVINGS:
             return 'Savings';
-        case 1:
+        case TransferType.PLEASURE:
             return 'Pleasure';
-        case 2:
-            return 'Vehicle';
-        case 3:
+        case TransferType.CLOTHES:
             return 'Clothes';
+        case TransferType.VEHICLE:
+            return 'Vehicle';
         default:
             return '';
         }

@@ -27,6 +27,7 @@ export class TransferListComponent implements OnInit, OnDestroy {
     if (this.sub) this.sub.unsubscribe();
   }
 
+  // todo: undefined at backend start because of empty response
   isEmptyList(): boolean {
     return this.transferList.length == 0;
   }
